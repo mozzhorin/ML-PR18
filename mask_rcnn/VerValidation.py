@@ -8,6 +8,9 @@ from sklearn import tree
 from sklearn import neighbors
 import sys
 
+"""
+A small test file for version validation of the libraries
+"""
 
 print("Python version: " + sys.version)
 print("sklearn Ver.: " + sk.__version__)

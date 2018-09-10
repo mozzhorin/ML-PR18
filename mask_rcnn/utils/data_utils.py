@@ -4,7 +4,11 @@ import pandas as pd
 # ref.: https://www.kaggle.com/paulorzp/run-length-encode-and-decode
 # ref.: https://www.kaggle.com/inversion/run-length-decoding-quick-star
 
+"""
+data preparation helper
+"""
 
+# run length decoder
 def rle_decode(mask_rle, shape=(768, 768)):
     """"
     mask_rle: run-length as string formated (start length)
