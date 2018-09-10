@@ -1,0 +1,14 @@
+version: '2.3'
+
+services:
+  machine-learning:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    image: tensorflow-gpu
+    runtime: nvidia
+    ports:
+      - 8888:8888
+    volumes:
+      - ./notebooks:/notebooks
+    container_name: tensorflow-gpu
