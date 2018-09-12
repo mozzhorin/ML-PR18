@@ -1,0 +1,14 @@
+Pillow
+h5py
+ipykernel
+jupyter
+keras_applications==1.0.4
+keras_preprocessing==1.0.2
+matplotlib
+numpy
+pandas
+scipy
+sklearn
+scikit-image
+tensorflow-gpu
+keras
