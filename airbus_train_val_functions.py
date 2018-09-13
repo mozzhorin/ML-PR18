@@ -49,7 +49,7 @@ def accuracy(outputs, targets):
 
 
 
-def train(train_loader, model, criterion, optimizer, device):
+def train(train_loader, model, criterion, optimizer, device, writer):
     """
     Trains/updates the model for one epoch on the training dataset.
 
@@ -87,13 +87,12 @@ def train(train_loader, model, criterion, optimizer, device):
         loss.backward()
         optimizer.step()
 
-
-        if i % 1000 == 0:
+        if i % 200 == 0:
+            writer.add_scalar('loss', losses.avg, i)
             print('Loss {loss.val:.4f} ({loss.avg:.4f})\t'.format(loss=losses))
 
 
-
-def validate(val_loader, model, criterion, device):
+def validate(val_loader, model, criterion, device, writer, epoch=0):
     """
     Evaluates/validates the model
 
@@ -131,5 +130,10 @@ def validate(val_loader, model, criterion, device):
         # add to confusion matrix
         confusion.add(outputs.data, targets)
 
+    writer.add_scalars('confusion matrix', {'00' : confusion.value()[0,0], 
+                                            '01' : confusion.value()[0,1],
+                                            '10' : confusion.value()[1,0],
+                                            '11' : confusion.value()[1,1]}, epoch)
+    writer.add_scalar('Accuracy', top1.avg, epoch)
     print(' * Validation accuracy: Prec@1 {top1.avg:.3f} '.format(top1=top1))
     print('Confusion matrix: ', confusion.value())

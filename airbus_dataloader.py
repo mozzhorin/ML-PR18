@@ -218,7 +218,7 @@ class AirbusDS:
         """
         
         # Split dataset to train and validate sets to evaluate the model
-        train_ids, val_ids = train_test_split(self.images_df, test_size=test_size)
+        train_ids, val_ids = train_test_split(self.images_df, test_size=self.test_size)
         self.val_ids = val_ids
         
         # Drop small images (mostly just clouds, water or corrupted)
@@ -232,10 +232,10 @@ class AirbusDS:
                
         
         # Define transformations for augmentation and without it
-        self.transform_no_aug = transforms.Compose([transforms.Resize((int(768/resize_factor), int(768/resize_factor))),
-                                                 transforms.ToTensor()])
+        self.transform_no_aug = transforms.Compose([transforms.Resize((int(768/self.resize_factor),
+                                                                       int(768/self.resize_factor))), transforms.ToTensor()])
         if self.aug:
-            self.transform = Compose([Resize(height=int(768/resize_factor), width=int(768/resize_factor)),
+            self.transform = Compose([Resize(height=int(768/self.resize_factor), width=int(768/self.resize_factor)),
                                       OneOf([RandomRotate90(), Transpose(), Flip()], p=0.3)])
         else:
             self.transform = self.transform_no_aug
