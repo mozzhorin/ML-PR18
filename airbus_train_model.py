@@ -1,34 +1,17 @@
 
 # coding: utf-8
 
-# In[1]:
-
+import numpy as np
+import time
 
 import torch
-import torch.utils.data
-import torchvision.datasets as datasets
-import os
-import struct
-import errno
-import numpy as np
-import pandas as pd
-from PIL import Image
-
-import matplotlib.pyplot as plt
-
-from sklearn.model_selection import train_test_split
-
-import torchvision
-import torchvision.transforms as transforms
-from torch.utils import data as D
 import torch.nn as nn
 import torch.nn.functional as F
-from torchnet import meter
-import time
+
 from tensorboardX import SummaryWriter
 
-import airbus_dataloader
-import airbus_train_val_functions
+from airbus_dataloader import *
+from airbus_train_val_functions import *
 
 
 class Net2(nn.Module):
@@ -87,8 +70,8 @@ test_size=0.1
 dataset = AirbusDS(torch.cuda.is_available(), batch_size, workers, path, aug, resize_factor, empty_frac, test_size)
 
 # Define optimizer and loss function (criterion)
-model = CNN_32(2).to(device)
-#model = torch.load('CNN_fashion.model').to(device)
+#model = CNN_32(2).to(device)
+model = torch.load('../CNN_32.model').to(device)
 criterion = nn.CrossEntropyLoss().to(device)
 
 # we can use advanced stochastic gradient descent algorithms 
@@ -99,12 +82,12 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.001,
 
 writer = SummaryWriter()
 
-total_epochs = 50
+total_epochs = 30
 for epoch in range(total_epochs):
     print("EPOCH:", epoch + 1, time.strftime("%Y-%m-%d %H:%M:%S"))
     print("TRAIN")
     train(dataset.train_loader, model, criterion, optimizer, device, writer)
     print("VALIDATION", time.strftime("%Y-%m-%d %H:%M:%S"))
     validate(dataset.val_loader, model, criterion, device, writer, epoch)
-
-torch.save(model, '../CNN_32.model')
+    torch.save(model, 'CNN_32.model')
+writer.close()

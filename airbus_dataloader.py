@@ -1,31 +1,25 @@
 
 # coding: utf-8
 
-# In[1]:
-
-
-import torch
-import torch.utils.data
-#import torchvision.datasets as datasets
 import os
 import struct
-#import gzip
 import errno
 import numpy as np
 import pandas as pd
 from PIL import Image
 
-import matplotlib.pyplot as plt
-
-
 from sklearn.model_selection import train_test_split
 
-import torchvision
-import torchvision.transforms as transforms
+import torch
+import torch.utils.data
 from torch.utils import data as D
 import torch.nn as nn
 import torch.nn.functional as F
-from torchnet import meter
+
+import torchvision
+import torchvision.transforms as transforms
+
+
 
 
 # In[2]:

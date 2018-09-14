@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from torchnet import meter
+import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_gpu = torch.cuda.is_available()
@@ -87,7 +88,7 @@ def train(train_loader, model, criterion, optimizer, device, writer):
         loss.backward()
         optimizer.step()
 
-        if i % 200 == 0:
+        if i % 200 == 199:
             writer.add_scalar('loss', losses.avg, i)
             print('Loss {loss.val:.4f} ({loss.avg:.4f})\t'.format(loss=losses))
 
@@ -106,7 +107,7 @@ def validate(val_loader, model, criterion, device, writer, epoch=0):
     losses = AverageMeter()
     top1 = AverageMeter()
 
-    confusion = meter.ConfusionMeter(len(val_loader.dataset.class_to_idx), normalized=True)
+    confusion = meter.ConfusionMeter(len(val_loader.dataset.class_to_idx), normalized=False)
 
     # switch to evaluate mode
     model.eval()
@@ -130,10 +131,11 @@ def validate(val_loader, model, criterion, device, writer, epoch=0):
         # add to confusion matrix
         confusion.add(outputs.data, targets)
 
-    writer.add_scalars('confusion matrix', {'00' : confusion.value()[0,0], 
-                                            '01' : confusion.value()[0,1],
-                                            '10' : confusion.value()[1,0],
-                                            '11' : confusion.value()[1,1]}, epoch)
+    count = losses.count
+    writer.add_scalars('confusion matrix', {'00' : confusion.value()[0,0]/count, 
+                                            '01' : confusion.value()[0,1]/count,
+                                            '10' : confusion.value()[1,0]/count,
+                                            '11' : confusion.value()[1,1]/count}, epoch)
     writer.add_scalar('Accuracy', top1.avg, epoch)
     print(' * Validation accuracy: Prec@1 {top1.avg:.3f} '.format(top1=top1))
-    print('Confusion matrix: ', confusion.value())
+    print('Confusion matrix: ', confusion.value()/count)
