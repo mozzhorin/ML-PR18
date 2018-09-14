@@ -1,0 +1,8 @@
+EPOCH: 1 2018-09-14 22:01:32
+TRAIN
+/home/ubuntu/ML-PR18/airbus_dataloader.py:219: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  train_ids['file_size_kb'] = train_ids['ImageId'].map(lambda c_img_id: os.stat(os.path.join(self.path_train, c_img_id)).st_size/1024)

@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 import numpy as np
@@ -92,8 +91,8 @@ test_size=0.1
 dataset = AirbusDS(torch.cuda.is_available(), batch_size, workers, path, aug, resize_factor, empty_frac, test_size)
 
 # Define optimizer and loss function (criterion)
-#model = CNN_32(2).to(device)
-model = torch.load('CNN_32.model').to(device)
+model = CNN_8(2).to(device)
+#model = torch.load('../CNN_16.model').to(device)
 criterion = nn.CrossEntropyLoss().to(device)
 
 # we can use advanced stochastic gradient descent algorithms 
@@ -102,7 +101,7 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.001,
                             momentum=0.9,
                             weight_decay=5e-4)
 
-writer = SummaryWriter()
+writer = SummaryWriter('runs/CNN_8')
 
 total_epochs = 30
 for epoch in range(total_epochs):
@@ -111,5 +110,5 @@ for epoch in range(total_epochs):
     train(dataset.train_loader, model, criterion, optimizer, device, writer)
     print("VALIDATION", time.strftime("%Y-%m-%d %H:%M:%S"))
     validate(dataset.val_loader, model, criterion, device, writer, epoch)
-    torch.save(model, 'CNN_32_30epoch_plus.model')
+    torch.save(model, 'CNN_8.model')
 writer.close()
