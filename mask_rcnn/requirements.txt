@@ -10,5 +10,6 @@ pandas
 scipy
 sklearn
 scikit-image
+opencv-python
 tensorflow-gpu
 keras
