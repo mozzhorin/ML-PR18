@@ -8,6 +8,9 @@ ARG PIP=pip${_PY_SUFFIX}
 #install scikit-image
 RUN ${PIP} install scikit-image
 
+#install opencv
+RUN ${PIP} install opencv-python
+
 #installing keras
 RUN ${PIP} install keras
 
