@@ -256,6 +256,7 @@ class Dataset(object):
         # Background is always the first class
         self.class_info = [{"source": "", "id": 0, "name": "BG"}]
         self.source_class_ids = {}
+        self.masks = []
 
     def add_class(self, source, class_id, class_name):
         assert "." not in source, "Source name cannot contain a dot"
@@ -514,7 +515,9 @@ def resize_mask(mask, scale, padding, crop=None):
     # calculated with round() instead of int()
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        mask = scipy.ndimage.zoom(mask, zoom=[scale, scale, 1], order=0)
+        #mask = scipy.ndimage.zoom(mask, zoom=[scale, scale, 1], order=0)
+        mask = scipy.ndimage.zoom(mask, zoom=[scale, scale], order=0)
+
     if crop is not None:
         y, x, h, w = crop
         mask = mask[y:y + h, x:x + w]

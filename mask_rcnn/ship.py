@@ -31,20 +31,11 @@ from mrcnn.config import Config
 from mrcnn import model as modellib
 from utils import utils
 from utils.data_utils import *
-from torch.utils import data as td
-
-
-# Root directory of the project
-#ROOT_DIR = os.path.abspath("../../")
-
 
 ROOT_DIR = os.path.dirname(os.path.realpath('__file__'))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train")
 TEST_DATA_DIR = os.path.join(DATA_DIR, "test")
-
-# Import Mask R-CNN
-#sys.path.append(ROOT_DIR)  # To find local version of the library
 
 
 # Path to trained weights file
@@ -79,6 +70,15 @@ class ShipConfig(Config):
 
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.9
+
+    # If enabled, resizes instance masks to a smaller size to reduce
+    # memory load. Recommended when using high-resolution images.
+    USE_MINI_MASK = False
+    MINI_MASK_SHAPE = (56, 56)  # (height, width) of the mini-mask
+
+    IMAGE_RESIZE_MODE = "none"
+    IMAGE_MIN_DIM = 768
+    IMAGE_MAX_DIM = 768
 
 ############################################################
 #  Dataset
@@ -116,9 +116,8 @@ class ShipDataset(utils.Dataset):
         for filename in self.filenames:
             masks = self.masks.loc[self.masks['ImageId'] == filename, 'EncodedPixels'].tolist()
             image_path = os.path.join(dataset_dir, filename)
-            image = imread(image_path)
-            height, width = image.shape[:2]
-
+            height, width = 768, 768
+            masks = list(filter(None, masks))
             self.add_image(
                 "ship",
                 image_id=filename,  # use file name as a unique image id
@@ -126,7 +125,6 @@ class ShipDataset(utils.Dataset):
                 width=width, height=height,
                 mask=masks)
 
-        print(len(self.image_info))
 
     def load_mask(self, image_id):
         """Generate instance masks for an image.
@@ -143,14 +141,14 @@ class ShipDataset(utils.Dataset):
         info = self.image_info[image_id]
 
         img_masks = self.masks.loc[self.masks['ImageId'] == image_id, 'EncodedPixels'].tolist()
-
         # Take the individual ship masks and create a single mask array for all ships
         all_masks = np.zeros((info["height"], info["width"]), dtype=np.uint8)
+        if img_masks == [-1]:
+            return all_masks
         for mask in img_masks:
             all_masks += rle_decode(mask)
 
-        #return all_masks
-        return all_masks.astype(np.bool), np.ones([all_masks.shape[-1]], dtype=np.int32)
+        return all_masks.astype(np.bool), np.ones(len(info["mask"]), dtype=np.int32)
 
     def image_reference(self, image_id):
         """Return the path of the image."""
