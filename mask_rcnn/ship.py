@@ -34,7 +34,7 @@ from utils.data_utils import *
 
 ROOT_DIR = os.path.dirname(os.path.realpath('__file__'))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
-TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train1")
+TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train")
 TEST_DATA_DIR = os.path.join(DATA_DIR, "test")
 ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 # Directory to save logs and trained model
