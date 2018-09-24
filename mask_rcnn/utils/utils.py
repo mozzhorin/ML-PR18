@@ -36,11 +36,22 @@ def extract_bboxes(mask):
     Returns: bbox array [num_instances, (y1, x1, y2, x2)].
     """
     boxes = np.zeros([mask.shape[-1], 4], dtype=np.int32)
+    print("mask")
+    print(mask)
+    print(mask.shape)
+    print(mask.shape[-1])
     for i in range(mask.shape[-1]):
         m = mask[:, :, i]
+        print("mask as m")
+        print(m)
         # Bounding box.
+        print(np.where(np.any(m, axis=0)))
         horizontal_indicies = np.where(np.any(m, axis=0))[0]
+        print("horiyental")
+        print(horizontal_indicies)
         vertical_indicies = np.where(np.any(m, axis=1))[0]
+        print("vertical")
+        print(vertical_indicies)
         if horizontal_indicies.shape[0]:
             x1, x2 = horizontal_indicies[[0, -1]]
             y1, y2 = vertical_indicies[[0, -1]]
@@ -256,7 +267,6 @@ class Dataset(object):
         # Background is always the first class
         self.class_info = [{"source": "", "id": 0, "name": "BG"}]
         self.source_class_ids = {}
-        self.masks = []
 
     def add_class(self, source, class_id, class_name):
         assert "." not in source, "Source name cannot contain a dot"
@@ -366,6 +376,7 @@ class Dataset(object):
         """Load the specified image and return a [H,W,3] Numpy array.
         """
         # Load image
+        print(self.image_info[image_id]['path'])
         image = skimage.io.imread(self.image_info[image_id]['path'])
         # If grayscale. Convert to RGB for consistency.
         if image.ndim != 3:
@@ -515,8 +526,7 @@ def resize_mask(mask, scale, padding, crop=None):
     # calculated with round() instead of int()
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        #mask = scipy.ndimage.zoom(mask, zoom=[scale, scale, 1], order=0)
-        mask = scipy.ndimage.zoom(mask, zoom=[scale, scale], order=0)
+        mask = scipy.ndimage.zoom(mask, zoom=[scale, scale, 1], order=0)
 
     if crop is not None:
         y, x, h, w = crop

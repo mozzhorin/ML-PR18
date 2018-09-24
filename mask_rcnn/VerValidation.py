@@ -7,10 +7,9 @@ import torch as tc
 from sklearn import tree
 from sklearn import neighbors
 import sys
+import cv2 as cv2
+import imgaug as ia
 
-"""
-A small test file for version validation of the libraries
-"""
 
 print("Python version: " + sys.version)
 print("sklearn Ver.: " + sk.__version__)
@@ -19,6 +18,8 @@ print("scipy Ver.: " + sp.__version__)
 print("tensorflow Ver.: " + tf.__version__)
 print("torch Ver.: " + tc.__version__)
 print("keras Ver.: " + ke.__version__)
+print("OpenCV Ver.: " + cv2.__version__)
+print("Imgaug Ver.: " + ia.__version__)
 
 hello = tf.constant('Hello, TensorFlow!')
 sess = tf.Session()
