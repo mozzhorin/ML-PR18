@@ -139,3 +139,61 @@ def validate(val_loader, model, criterion, device, writer, epoch=0):
     writer.add_scalar('Accuracy', top1.avg, epoch)
     print(' * Validation accuracy: Prec@1 {top1.avg:.3f} '.format(top1=top1))
     print('Confusion matrix: ', confusion.value()/count)
+
+def soft_class(outputs, treshold):
+    softout = torch.nn.functional.softmax(outputs, dim=1)
+    result = []
+    for t in softout:
+        if t[1]>treshold :
+            result.append(1)
+        else:
+            result.append(0)
+    return(torch.Tensor(result).to(device).long())
+
+def validate_soft(val_loader, model, criterion, device, writer, epoch=0, treshold=0.5):
+    """
+    Evaluates/validates the model
+
+    Parameters:
+        val_loader (torch.utils.data.DataLoader): The validation or testset dataloader
+        model (torch.nn.module): Model to be evaluated/validated
+        criterion (torch.nn.criterion): Loss function
+        device (string): cuda or cpu
+    """
+
+    losses = AverageMeter()
+    top1 = AverageMeter()
+
+    confusion = meter.ConfusionMeter(len(val_loader.dataset.class_to_idx), normalized=False)
+
+    # switch to evaluate mode
+    model.eval()
+
+    for i, data in enumerate(val_loader):
+        inputs, targets = data
+        inputs = inputs.to(device).float()
+        targets = targets.to(device).long()
+
+        # compute output
+        outputs = model(inputs)
+
+        # compute loss
+        loss = criterion(outputs, targets)
+
+        # measure accuracy and record loss
+        outputs = soft_class(outputs, treshold)
+        prec1 = accuracy(outputs, targets)
+        losses.update(loss.item(), inputs.size(0))
+        top1.update(prec1, inputs.size(0))
+
+        # add to confusion matrix
+        confusion.add(outputs.data, targets)
+
+    count = losses.count
+    writer.add_scalars('confusion matrix', {'00' : confusion.value()[0,0]/count, 
+                                            '01' : confusion.value()[0,1]/count,
+                                            '10' : confusion.value()[1,0]/count,
+                                            '11' : confusion.value()[1,1]/count}, epoch)
+    writer.add_scalar('Accuracy', top1.avg, epoch)
+    print(' * Validation accuracy: Prec@1 {top1.avg:.3f} '.format(top1=top1))
+    print('Confusion matrix: ', confusion.value()/count)
