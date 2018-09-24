@@ -32,11 +32,6 @@ from mrcnn import model as modellib
 from utils import utils
 from utils.data_utils import *
 
-
-# Root directory of the project
-#ROOT_DIR = os.path.abspath("../../")
-
-
 ROOT_DIR = os.path.dirname(os.path.realpath('__file__'))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train1")
@@ -45,8 +40,6 @@ ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 # Directory to save logs and trained model
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
-# Import Mask R-CNN
-#sys.path.append(ROOT_DIR)  # To find local version of the library
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
@@ -54,6 +47,8 @@ DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 DEFAULT_DATASET_YEAR = "2018"
 
 # Path to trained weights file
+#download from https://github.com/matterport/Mask_RCNN/releases 
+# and put them in the right folder
 BALLOON_WEIGHTS_PATH = os.path.join(DEFAULT_LOGS_DIR, "mask_rcnn_balloon.h5")
 COCO_WEIGHTS_PATH = os.path.join(DEFAULT_LOGS_DIR, "mask_rcnn_coco.h5")
 
@@ -70,7 +65,7 @@ class ShipConfig(Config):
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 2
+    IMAGES_PER_GPU = 1
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + 1  # Background + ship
@@ -190,14 +185,12 @@ def train(model, config):
     # Training dataset.
     dataset_train = ShipDataset()
     dataset_train.filenames.extend(dataset_train_filenames)
-    print(dataset_train.filenames)
     dataset_train.load_ship(TRAIN_DATA_DIR)
     dataset_train.prepare()
 
     # Validation dataset
     dataset_val = ShipDataset()
     dataset_val.filenames.extend(dataset_val_filenames)
-    print(dataset_val.filenames)
     dataset_val.load_ship(TRAIN_DATA_DIR)
     dataset_val.prepare()
 

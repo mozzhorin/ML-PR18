@@ -36,22 +36,11 @@ def extract_bboxes(mask):
     Returns: bbox array [num_instances, (y1, x1, y2, x2)].
     """
     boxes = np.zeros([mask.shape[-1], 4], dtype=np.int32)
-    print("mask")
-    print(mask)
-    print(mask.shape)
-    print(mask.shape[-1])
     for i in range(mask.shape[-1]):
         m = mask[:, :, i]
-        print("mask as m")
-        print(m)
         # Bounding box.
-        print(np.where(np.any(m, axis=0)))
         horizontal_indicies = np.where(np.any(m, axis=0))[0]
-        print("horiyental")
-        print(horizontal_indicies)
         vertical_indicies = np.where(np.any(m, axis=1))[0]
-        print("vertical")
-        print(vertical_indicies)
         if horizontal_indicies.shape[0]:
             x1, x2 = horizontal_indicies[[0, -1]]
             y1, y2 = vertical_indicies[[0, -1]]
