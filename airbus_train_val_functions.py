@@ -150,6 +150,14 @@ def soft_class(outputs, treshold):
             result.append(0)
     return(torch.Tensor(result).to(device).long())
 
+def accuracy_soft(outputs, targets):
+
+    batch_size = targets.size(0)
+    correct = (outputs == targets).sum().item()
+
+    res = 100 * correct / batch_size
+    return res
+
 def validate_soft(val_loader, model, criterion, device, writer, epoch=0, treshold=0.5):
     """
     Evaluates/validates the model
@@ -182,7 +190,7 @@ def validate_soft(val_loader, model, criterion, device, writer, epoch=0, treshol
 
         # measure accuracy and record loss
         outputs = soft_class(outputs, treshold)
-        prec1 = accuracy(outputs, targets)
+        prec1 = accuracy_soft(outputs, targets)
         losses.update(loss.item(), inputs.size(0))
         top1.update(prec1, inputs.size(0))
 

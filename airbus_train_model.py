@@ -111,5 +111,5 @@ for epoch in range(total_epochs):
     train(dataset.train_loader, model, criterion, optimizer, device, writer)
     print("VALIDATION", time.strftime("%Y-%m-%d %H:%M:%S"))
     validate(dataset.val_loader, model, criterion, device, writer, epoch)
-    torch.save(model, 'CNN_32_30epoch_plus.model')
+    #torch.save(model, 'CNN_32_30epoch_plus.model')
 writer.close()
