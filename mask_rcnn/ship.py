@@ -36,16 +36,21 @@ ROOT_DIR = os.path.dirname(os.path.realpath('__file__'))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train")
 TEST_DATA_DIR = os.path.join(DATA_DIR, "test")
-
-
-# Path to trained weights file
-COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "data/mask_rcnn_balloon.h5")
+ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
+# Directory to save logs and trained model
+MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 DEFAULT_DATASET_YEAR = "2018"
+
+# Path to trained weights file
+#download from https://github.com/matterport/Mask_RCNN/releases 
+# and put them in the right folder
+BALLOON_WEIGHTS_PATH = os.path.join(DEFAULT_LOGS_DIR, "mask_rcnn_balloon.h5")
+COCO_WEIGHTS_PATH = os.path.join(DEFAULT_LOGS_DIR, "mask_rcnn_coco.h5")
 
 ############################################################
 #  Configurations
@@ -60,7 +65,7 @@ class ShipConfig(Config):
 
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 2
+    IMAGES_PER_GPU = 1
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + 1  # Background + ship
@@ -95,13 +100,11 @@ class ShipDataset(utils.Dataset):
             self.mode = 'train'
             masks_file_path = os.path.join(DATA_DIR, 'train_ship_segmentations.csv')
             self.masks = pd.read_csv(masks_file_path, keep_default_na=False)
-            self.masks.head()
 
         elif mode == "test":
             self.mode = 'test'
             masks_file_path = os.path.join(DATA_DIR, 'test_ship_segmentations.csv')
             self.masks = pd.read_csv(masks_file_path, keep_default_na=False)
-            self.masks.head()
 
         self.len = len(self.filenames)
 
@@ -139,16 +142,20 @@ class ShipDataset(utils.Dataset):
             return super(self.__class__, self).load_mask(image_id)
 
         info = self.image_info[image_id]
+        img_masks = self.masks.loc[self.masks['ImageId'] == info["id"], 'EncodedPixels'].tolist()
 
-        img_masks = self.masks.loc[self.masks['ImageId'] == image_id, 'EncodedPixels'].tolist()
         # Take the individual ship masks and create a single mask array for all ships
-        all_masks = np.zeros((info["height"], info["width"]), dtype=np.uint8)
+        mask = np.zeros((info["height"], info["width"]), dtype=np.uint8)
+        all_masks = np.zeros([info["height"], info["width"], len(img_masks)], dtype=np.uint8)
+
         if img_masks == [-1]:
             return all_masks
-        for mask in img_masks:
-            all_masks += rle_decode(mask)
 
-        return all_masks.astype(np.bool), np.ones(len(info["mask"]), dtype=np.int32)
+        for idx, value in enumerate(img_masks):
+            mask += rle_decode(value)
+            all_masks[..., idx] = mask
+
+        return all_masks.astype(np.bool), np.ones([all_masks.shape[-1]], dtype=np.int32)
 
     def image_reference(self, image_id):
         """Return the path of the image."""

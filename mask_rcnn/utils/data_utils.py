@@ -34,3 +34,4 @@ def load_filenames(data_dir):
             data_dir = TRAIN_DATA_DIR
         extension = ".jpg"
         return [f for f in os.listdir(data_dir) if f.endswith(extension)]
+
