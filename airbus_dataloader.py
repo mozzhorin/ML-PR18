@@ -144,7 +144,33 @@ class AirbusDS_val(AirbusDS_train):
             return self.transform(image), label
 
 
-# In[6]:
+class AirbusDS_test(D.Dataset):
+    """
+    A customized data loader.
+    """
+    def __init__(self, path_test, transform):
+        """ Intialize the dataset
+        """
+        
+        self.path_test = path_test
+        self.transform = transform
+        self.test_files = np.array(os.listdir(self.path_test))
+        self.len = len(self.test_files)
+        
+    def __getitem__(self, index):
+        """ Get a sample from the dataset
+        """       
+        
+        image = Image.open(str(self.path_test + self.test_files[index]))
+        ImageId = self.test_files[index]
+        return self.transform(image), ImageId
+    
+    def __len__(self):
+        """
+        Total number of samples in the dataset
+        """
+  
+        return self.len
 
 
 class AirbusDS:
@@ -168,6 +194,7 @@ class AirbusDS:
         
         self.root = root
         self.path_train = root + 'train/'
+        self.path_test = root + 'test/'
         self.aug = aug
         self.empty_frac = empty_frac
         self.resize_factor = resize_factor
@@ -196,9 +223,9 @@ class AirbusDS:
         
         ##########################
 
-        self.trainset, self.valset = self.get_dataset()
+        self.trainset, self.valset, self.testset = self.get_dataset()
 
-        self.train_loader, self.val_loader = self.get_dataset_loader (batch_size, workers, is_gpu)
+        self.train_loader, self.val_loader, self.test_loader = self.get_dataset_loader (batch_size, workers, is_gpu)
 
         self.val_loader.dataset.class_to_idx = {'no_ship': 0, 'ship': 1}
 
@@ -237,8 +264,9 @@ class AirbusDS:
         # TensorDataset wrapper
         trainset = AirbusDS_train(self.path_train, self.aug, self.transform, self.train_ids, self.masks)
         valset = AirbusDS_val(self.path_train, False, self.transform_no_aug, self.val_ids, self.masks) 
+        testset = AirbusDS_test(self.path_test, self.transform)
 
-        return trainset, valset
+        return trainset, valset, testset
 
     def get_dataset_loader(self, batch_size, workers, is_gpu):
         """
@@ -255,8 +283,10 @@ class AirbusDS:
 
         train_loader = torch.utils.data.DataLoader(self.trainset, batch_size=batch_size, shuffle=True,
                                                    num_workers=workers, pin_memory=is_gpu, sampler=None)
-        test_loader = torch.utils.data.DataLoader(self.valset, batch_size=batch_size, shuffle=True,
+        val_loader = torch.utils.data.DataLoader(self.valset, batch_size=batch_size, shuffle=True,
+                                                  num_workers=workers, pin_memory=is_gpu, sampler=None)
+        test_loader = torch.utils.data.DataLoader(self.testset, batch_size=batch_size, shuffle=True,
                                                   num_workers=workers, pin_memory=is_gpu, sampler=None)
 
-        return train_loader, test_loader
+        return train_loader, val_loader, test_loader
 

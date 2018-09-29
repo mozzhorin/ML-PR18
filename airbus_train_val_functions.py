@@ -3,6 +3,9 @@
 
 from torchnet import meter
 import torch
+import numpy as np
+import pandas as pd
+import time
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_gpu = torch.cuda.is_available()
@@ -205,3 +208,42 @@ def validate_soft(val_loader, model, criterion, device, writer, epoch=0, treshol
     writer.add_scalar('Accuracy', top1.avg, epoch)
     print(' * Validation accuracy: Prec@1 {top1.avg:.3f} '.format(top1=top1))
     print('Confusion matrix: ', confusion.value()/count)
+    
+def predict(test_loader, model, device, treshold=0.5):
+    """
+    Evaluates/validates the model
+
+    Parameters:
+        val_loader (torch.utils.data.DataLoader): The validation or testset dataloader
+        model (torch.nn.module): Model to be evaluated/validated
+        criterion (torch.nn.criterion): Loss function
+        device (string): cuda or cpu
+    """
+
+    # switch to evaluate mode
+    model.eval()
+    
+    test_size = len(test_loader)
+    
+    predictions = pd.DataFrame(columns=['ImageId', 'Label'])
+    print('START PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
+    start_time = time.time()
+
+    for i, data in enumerate(test_loader):
+        inputs, img_id = data
+        inputs = inputs.to(device).float()
+
+        # compute output
+        outputs = model(inputs)
+        outputs = soft_class(outputs, treshold)
+        predictions = predictions.append(pd.DataFrame(np.array([img_id, outputs.numpy()]).T,columns=['ImageId', 'Label']))
+        
+    if i % 1000 == 999:
+            print('Predicted {num} from {size}\t'.format(num=i, size=test_size))
+    predictions.to_csv('predictions.txt', sep='\t', header=False, index=False)
+    run_time = time.time() - start_time
+    print('FINISH PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
+    print('PREDICTIONS RUN TIME (s)', run_time)
+    #return predictions
+
+
