@@ -6,6 +6,7 @@ import torch
 import numpy as np
 import pandas as pd
 import time
+import logging
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_gpu = torch.cuda.is_available()
@@ -219,7 +220,11 @@ def predict(test_loader, model, device, treshold=0.5):
         criterion (torch.nn.criterion): Loss function
         device (string): cuda or cpu
     """
-
+    
+    logging.basicConfig(filename='predict.log', filemode='w', level=logging.INFO,
+                        format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %H:%M:%S ')
+    logger = logging.getLogger("pred_log")
+    
     # switch to evaluate mode
     model.eval()
     
@@ -227,6 +232,7 @@ def predict(test_loader, model, device, treshold=0.5):
     
     predictions = pd.DataFrame(columns=['ImageId', 'Label'])
     print('START PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
+    logger.info('START PREDICTIONS')
     start_time = time.time()
 
     for i, data in enumerate(test_loader):
@@ -238,12 +244,16 @@ def predict(test_loader, model, device, treshold=0.5):
         outputs = soft_class(outputs, treshold)
         predictions = predictions.append(pd.DataFrame(np.array([img_id, outputs.numpy()]).T,columns=['ImageId', 'Label']))
         
-    if i % 1000 == 999:
+        if i % 1000 == 0:
             print('Predicted {num} from {size}\t'.format(num=i, size=test_size))
+            logger.info('Predicted %s from %s images.', i, test_size)
+            
     predictions.to_csv('predictions.txt', sep='\t', header=False, index=False)
     run_time = time.time() - start_time
     print('FINISH PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
+    logger.info('FINISH PREDICTIONS')
     print('PREDICTIONS RUN TIME (s)', run_time)
+    logger.info('PREDICTIONS RUN TIME %s (s)', run_time)
     #return predictions
 
 

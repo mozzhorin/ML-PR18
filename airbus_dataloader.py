@@ -169,7 +169,6 @@ class AirbusDS_test(D.Dataset):
         """
         Total number of samples in the dataset
         """
-  
         return self.len
 
 
