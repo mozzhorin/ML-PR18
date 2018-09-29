@@ -210,7 +210,7 @@ def validate_soft(val_loader, model, criterion, device, writer, epoch=0, treshol
     print(' * Validation accuracy: Prec@1 {top1.avg:.3f} '.format(top1=top1))
     print('Confusion matrix: ', confusion.value()/count)
     
-def predict(test_loader, model, device, treshold=0.5):
+def predict(test_loader, model, device, predict_file, treshold=0.5,):
     """
     Evaluates/validates the model
 
@@ -221,7 +221,7 @@ def predict(test_loader, model, device, treshold=0.5):
         device (string): cuda or cpu
     """
     
-    logging.basicConfig(filename='predict.log', filemode='w', level=logging.INFO,
+    logging.basicConfig(filename='predict.log', level=logging.INFO,
                         format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %H:%M:%S ')
     logger = logging.getLogger("pred_log")
     
@@ -249,7 +249,7 @@ def predict(test_loader, model, device, treshold=0.5):
             print('Predicted {num} from {size}\t'.format(num=i, size=test_size))
             logger.info('Predicted %s from %s images.', i, test_size)
             
-    predictions.to_csv('predictions.txt', sep='\t', header=False, index=False)
+    predictions.to_csv(predict_file, sep='\t', header=False, index=False)
     predictions[predictions['Label']!='0']['ImageId'].to_csv('filtered_ships.txt', sep='\t', header=False, index=False)
     run_time = time.time() - start_time
     print('FINISH PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
