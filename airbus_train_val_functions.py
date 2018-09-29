@@ -249,6 +249,7 @@ def predict(test_loader, model, device, treshold=0.5):
             logger.info('Predicted %s from %s images.', i, test_size)
             
     predictions.to_csv('predictions.txt', sep='\t', header=False, index=False)
+    predictions[predictions['Label']!='0']['ImageId'].to_csv('filtered_ships.txt', sep='\t', header=False, index=False)
     run_time = time.time() - start_time
     print('FINISH PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
     logger.info('FINISH PREDICTIONS')
