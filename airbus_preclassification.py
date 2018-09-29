@@ -80,7 +80,7 @@ class CNN_8_x4(nn.Module):
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_gpu = torch.cuda.is_available()
-batch_size = 4
+batch_size = 8
 workers = 4
 path = '../airbus/'
 aug=False
@@ -91,6 +91,6 @@ test_size=0.1
 dataset = AirbusDS(torch.cuda.is_available(), batch_size, workers, path, aug, resize_factor, empty_frac, test_size)
 
 #model = CNN_8_x4(2).to(device)
-model = torch.load('CNN_8_x4.model', map_location=device).to(device)
+model = torch.load('CNN_8_x4.model').to(device)
 
 predict(dataset.test_loader, model, device, treshold=0.5)

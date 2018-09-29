@@ -242,7 +242,8 @@ def predict(test_loader, model, device, treshold=0.5):
         # compute output
         outputs = model(inputs)
         outputs = soft_class(outputs, treshold)
-        predictions = predictions.append(pd.DataFrame(np.array([img_id, outputs.numpy()]).T,columns=['ImageId', 'Label']))
+        predictions = predictions.append(pd.DataFrame(\
+                      np.array([img_id, outputs.cpu().numpy()]).T,columns=['ImageId', 'Label']))
         
         if i % 1000 == 0:
             print('Predicted {num} from {size}\t'.format(num=i, size=test_size))
