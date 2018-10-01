@@ -90,7 +90,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
                       show_mask=True, show_bbox=True,
-                      colors=None, captions=None, img_idx=1):
+                      colors=None, captions=None, img_name="_with_bounding_box", img_idx=1):
     """
     boxes: [num_instance, (y1, x1, y2, x2, class_id)] in image coordinates.
     masks: [height, width, num_instances]
@@ -171,7 +171,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
 
-    img_filename = "img_" + str(img_idx) + "_with_bounding_box.png"
+    img_filename = "img_" + str(img_idx) + img_name + ".png"
 
     if auto_show:
         plt.savefig(os.path.join(ASSETS_DIR, img_filename))
@@ -373,7 +373,7 @@ def plot_overlaps(gt_class_ids, pred_class_ids, pred_scores,
 
 def draw_boxes(image, boxes=None, refined_boxes=None,
                masks=None, captions=None, visibilities=None,
-               title="", ax=None, img_name="draw_boxes"):
+               title="", ax=None, img_name="draw_boxes", img_idx=1):
     """Draw bounding boxes and segmentation masks with different
     customizations.
 
@@ -472,7 +472,7 @@ def draw_boxes(image, boxes=None, refined_boxes=None,
                 p = Polygon(verts, facecolor="none", edgecolor=color)
                 ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
-    image_draw_boxes = "image_" + img_name + ".png"
+    image_draw_boxes = "image_" + img_name + "_" + str(img_idx) +  ".png"
     plt.savefig(os.path.join(ASSETS_DIR, image_draw_boxes))
 
 

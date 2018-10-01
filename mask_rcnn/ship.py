@@ -20,37 +20,41 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
     python3 coco.py evaluate --dataset=/path/to/coco/ --model=last
 """
 
-import os
-import sys
 import datetime
-import numpy as np
-import pandas as pd
 from skimage.color import rgb2gray, gray2rgb
 from skimage.io import imread, imsave
 from mrcnn.config import Config
 from mrcnn import model as modellib
 from utils import utils
 from utils.data_utils import *
+import path as pt
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from timeit import default_timer as timer
 
-ROOT_DIR = os.path.dirname(os.path.realpath('__file__'))
-DATA_DIR = os.path.join(ROOT_DIR, "data")
-TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train")
-TEST_DATA_DIR = os.path.join(DATA_DIR, "test")
-ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
+##Directories
+ROOT_DIR = pt.ROOT_DIR
+DATA_DIR = pt.DATA_DIR
+TRAIN_DATA_DIR = pt.SHIP_CONTAINING_TRAIN_DATA_DIR
+BIG_TRAIN_DATA_DIR = pt.BIG_TRAIN_DATA_DIR
+TEST_DATA_DIR = pt.SHIP_CONTAINING_TEST_DATA_DIR
+BIG_TEST_DATA_DIR = pt.BIG_TEST_DATA_DIR
+ASSETS_DIR = pt.ASSETS_DIR
+TEST_TEMP = pt.TEST_TEMP
 # Directory to save logs and trained model
-MODEL_DIR = os.path.join(ROOT_DIR, "logs")
-
+MODEL_DIR = pt.MODEL_DIR
+DETECTED = pt.DETECTED
+DETECTED_MASKS_DIR = pt.DETECTED_MASKS_DIR
+DETECTED_IMAGE_DIR = pt.DETECTED_IMAGE_DIR
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
-DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
-DEFAULT_DATASET_YEAR = "2018"
+DEFAULT_LOGS_DIR = pt.DEFAULT_LOGS_DIR
+DEFAULT_DATASET_YEAR = pt.DEFAULT_DATASET_YEAR
 
 # Path to trained weights file
-#download from https://github.com/matterport/Mask_RCNN/releases 
-# and put them in the right folder
-BALLOON_WEIGHTS_PATH = os.path.join(DEFAULT_LOGS_DIR, "mask_rcnn_balloon.h5")
-COCO_WEIGHTS_PATH = os.path.join(DEFAULT_LOGS_DIR, "mask_rcnn_coco.h5")
+BALLOON_WEIGHTS_PATH = pt.BALLOON_WEIGHTS_PATH
+COCO_WEIGHTS_PATH = pt.COCO_WEIGHTS_PATH
 
 ############################################################
 #  Configurations
@@ -71,17 +75,19 @@ class ShipConfig(Config):
     NUM_CLASSES = 1 + 1  # Background + ship
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 100
+    STEPS_PER_EPOCH = 1000
+
+    VALIDATION_STEPS = 50
 
     # Skip detections with < 90% confidence
-    DETECTION_MIN_CONFIDENCE = 0.9
+    DETECTION_MIN_CONFIDENCE = 0.90
 
     # If enabled, resizes instance masks to a smaller size to reduce
     # memory load. Recommended when using high-resolution images.
-    USE_MINI_MASK = False
-    MINI_MASK_SHAPE = (56, 56)  # (height, width) of the mini-mask
+    USE_MINI_MASK = True
+    MINI_MASK_SHAPE = (384, 384)  # (height, width) of the mini-mask
 
-    IMAGE_RESIZE_MODE = "none"
+    IMAGE_RESIZE_MODE = "square"
     IMAGE_MIN_DIM = 768
     IMAGE_MAX_DIM = 768
 
@@ -166,33 +172,10 @@ class ShipDataset(utils.Dataset):
             super(self.__class__, self).image_reference(image_id)
 
 
-def train(model, config):
+def train(model, config, dataset=TRAIN_DATA_DIR):
     """Train the model."""
 
-    train_dataset_filenames = load_filenames(TRAIN_DATA_DIR)
-    train_dataset_filenames.sort()  # make sure that the filenames have a fixed order before shuffling
-    np.random.seed(230)
-    np.random.shuffle(train_dataset_filenames) # shuffles the ordering of filenames (deterministic given the chosen seed)
-    train_len = int(0.8*len(train_dataset_filenames))
-    valid_len = len(train_dataset_filenames) - train_len
-
-    dataset_train_filenames = train_dataset_filenames[:train_len]
-    dataset_val_filenames = train_dataset_filenames[train_len:]
-
-    print(train_len)
-    print(valid_len)
-
-    # Training dataset.
-    dataset_train = ShipDataset()
-    dataset_train.filenames.extend(dataset_train_filenames)
-    dataset_train.load_ship(TRAIN_DATA_DIR)
-    dataset_train.prepare()
-
-    # Validation dataset
-    dataset_val = ShipDataset()
-    dataset_val.filenames.extend(dataset_val_filenames)
-    dataset_val.load_ship(TRAIN_DATA_DIR)
-    dataset_val.prepare()
+    dataset_train, dataset_val = load_dataset(mode="train", dataset_path=dataset)
 
     # *** This training schedule is an example. Update to your needs ***
     # Since we're using a very small dataset, and starting from
@@ -205,7 +188,57 @@ def train(model, config):
                 epochs=30,
                 layers='heads')
 
+## load data from provided path
+def load_dataset(mode="train", dataset_path=TRAIN_DATA_DIR):
+    train_dataset_filenames = load_filenames(dataset_path)
+    train_dataset_filenames.sort()  # make sure that the filenames have a fixed order before shuffling
+    np.random.seed(230)
+    np.random.shuffle(train_dataset_filenames) # shuffles the ordering of filenames (deterministic given the chosen seed)
+    if mode == "train":
+        train_len = int(0.9*len(train_dataset_filenames))
+        valid_len = len(train_dataset_filenames) - train_len
+    else:
+        train_len = len(train_dataset_filenames)
 
+    dataset_train_filenames = train_dataset_filenames[:train_len]
+    dataset_val_filenames = train_dataset_filenames[train_len:]
+    print(len(dataset_train_filenames))
+    print(len(dataset_val_filenames))
+
+    # Training dataset.
+    dataset_train = ShipDataset()
+    dataset_train.filenames.extend(dataset_train_filenames)
+    dataset_train.load_ship(dataset_path)
+    dataset_train.prepare()
+
+    if mode == "train":
+        # Validation dataset
+        dataset_val = ShipDataset()
+        dataset_val.filenames.extend(dataset_val_filenames)
+        dataset_val.load_ship(dataset_path)
+        dataset_val.prepare()
+
+    else:
+        dataset_val = []
+
+
+    return  dataset_train, dataset_val
+
+##save detected objects together with their masks as an image
+def save_detected_image(image, masks, test_image_filename):
+    # Save output
+    file_name = test_image_filename[:-4] + "_detected_{:%Y%m%dT%H%M%S}.png".format(datetime.datetime.now())
+    dir_to_save_image = os.path.join(DETECTED_IMAGE_DIR, file_name)
+    imsave(dir_to_save_image, image)
+    for idx in range(masks.shape[-1]):
+        #Save mask output
+        mask_file_name =  test_image_filename[:-4] + "_mask_" + str(idx) + "_{:%Y%m%dT%H%M%S}.png".format(datetime.datetime.now())
+        dir_to_save_mask = os.path.join(DETECTED_MASKS_DIR, mask_file_name)
+        plt.imsave(dir_to_save_mask, masks[...,idx], cmap=cm.gray)
+        #imsave(dir_to_save_mask, masks[...,idx].astype(np.uint8))
+
+
+##apply color onto an image based on its mask
 def color_splash(image, mask):
     """Apply color splash effect.
     image: RGB image [height, width, 3]
@@ -225,23 +258,31 @@ def color_splash(image, mask):
         splash = gray.astype(np.uint8)
     return splash
 
-
-def detect_and_color_splash(model, image_path=None, video_path=None):
+##detection
+def detect_and_color_splash(model, image_path=None, video_path=None, submission_file_name_extender=None):
     assert image_path or video_path
-
+    dataset_to_detect, dataset_val = load_dataset(mode="splash", dataset_path=image_path)
     # Image or video?
+    masks_dict = {}
+    start = timer()
     if image_path:
+        test_image_filenames = load_filenames(image_path)
         # Run model detection and generate the color splash effect
-        print("Running on {}".format(args.image))
-        # Read image
-        image = imread(args.image)
-        # Detect objects
-        r = model.detect([image], verbose=1)[0]
-        # Color splash
-        splash = color_splash(image, r['masks'])
-        # Save output
-        file_name = "splash_{:%Y%m%dT%H%M%S}.png".format(datetime.datetime.now())
-        imsave(file_name, splash)
+        #print("Running on {}".format(args.image))
+        print("Running on {}".format(image_path))
+        print("Image Count for detection", len(test_image_filenames))
+        for test_image_filename in test_image_filenames:
+            # Read image
+            #image = imread(args.image)
+            image = imread(os.path.join(image_path, test_image_filename))
+            # Detect objects
+            r = model.detect([image], verbose=1)[0]
+            print("image file name", test_image_filename)
+            masks_dict[test_image_filename] = r['masks']
+            # Color splash
+            #splash = color_splash(image, r['masks'])
+            #save_detected_image(splash, r['masks'], test_image_filename)
+
     elif video_path:
         import cv2
         # Video capture
@@ -275,7 +316,11 @@ def detect_and_color_splash(model, image_path=None, video_path=None):
                 vwriter.write(splash)
                 count += 1
         vwriter.release()
-    print("Saved to ", file_name)
+    #print("Saved to ", file_name)
+    end = timer()
+    print("detection duration(in Sec): ", end - start)
+    masks_rle = gather_mask_rle(masks_dict)
+    create_submission_file(masks_rle, submission_file_name_extender=submission_file_name_extender)
 
 
 
@@ -283,6 +328,80 @@ def detect_and_color_splash(model, image_path=None, video_path=None):
 #  Training
 ############################################################
 
+def init_training(mode, dataset, logs=DEFAULT_LOGS_DIR, weights="last", image=TEST_DATA_DIR, video=None, submission_file_name_extender=None):
+    # Validate arguments
+    if mode == "train":
+        assert dataset, "Argument --dataset is required for training"
+    elif mode == "splash":
+        assert image or video, \
+            "Provide --image or --video to apply color splash"
+
+    print("Weights: ", weights)
+    print("Dataset: ", dataset)
+    print("Logs: ", logs)
+    print("Mode: ", mode)
+
+    # Configurations
+    if mode == "train":
+        config = ShipConfig()
+    else:
+        class InferenceConfig(ShipConfig):
+            # Set batch size to 1 since we'll be running inference on
+            # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
+            GPU_COUNT = 1
+            IMAGES_PER_GPU = 1
+        config = InferenceConfig()
+    config.display()
+
+    # Create model
+    if mode == "train":
+        model = modellib.MaskRCNN(mode="training", config=config,
+                                  model_dir=logs)
+    elif mode == "splash":
+        model = modellib.MaskRCNN(mode="inference", config=config,
+                                  model_dir=logs)
+
+    # Select weights file to load
+    if weights.lower() == "coco":
+        weights_path = COCO_WEIGHTS_PATH
+        # Download weights file
+        if not os.path.exists(weights_path):
+            utils.download_trained_weights(weights_path)
+    elif weights.lower() == "last":
+        # Find last trained weights
+        weights_path = model.find_last()
+    elif weights.lower() == "imagenet":
+        # Start from ImageNet trained weights
+        weights_path = model.get_imagenet_weights()
+    else:
+        weights_path = weights
+
+    # Load weights
+    print("Loading weights ", weights_path)
+    if weights.lower() == "coco":
+        # Exclude the last layers because they require a matching
+        # number of classes
+        model.load_weights(weights_path, by_name=True, exclude=[
+            "mrcnn_class_logits", "mrcnn_bbox_fc",
+            "mrcnn_bbox", "mrcnn_mask"])
+    else:
+        model.load_weights(weights_path, by_name=True)
+
+    # Train or evaluate
+    if mode == "train":
+        train(model, config, dataset)
+    elif mode == "splash":
+        detect_and_color_splash(model, image_path=image,
+                                video_path=video, submission_file_name_extender=submission_file_name_extender)
+    else:
+        print("'{}' is not recognized. "
+              "Use 'train' or 'splash'".format(mode))
+
+
+
+
+
+## init train or detection via CLI
 if __name__ == '__main__':
     import argparse
 

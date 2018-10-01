@@ -22,15 +22,11 @@ import mrcnn.model as modellib
 from mrcnn.model import log
 import ship
 from ship import ASSETS_DIR
-import balloon
-#from balloon import ROOT_DIR, DATA_DIR
-
-
 # Root directory of the project
 
 ROOT_DIR = os.path.dirname(os.path.realpath('__file__'))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
-TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train1")
+TRAIN_DATA_DIR = os.path.join(DATA_DIR, "train_temp")
 TEST_DATA_DIR = os.path.join(DATA_DIR, "test")
 #Directory to save logs and trained model
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
@@ -56,13 +52,13 @@ train_dataset_filenames.sort()  # make sure that the filenames have a fixed orde
 np.random.seed(230)
 np.random.shuffle(train_dataset_filenames) # shuffles the ordering of filenames (deterministic given the chosen seed)
 train_len = int(0.3*len(train_dataset_filenames))
-valid_len = len(train_dataset_filenames) - train_len
+#valid_len = len(train_dataset_filenames) - train_len
 
-dataset_train_filenames = train_dataset_filenames[:train_len]
-dataset_val_filenames = train_dataset_filenames[train_len:]
+dataset_train_filenames = train_dataset_filenames[:]
+#dataset_val_filenames = train_dataset_filenames[train_len:]
 
 print(train_len)
-print(valid_len)
+#print(valid_len)
 
 # Load dataset
 dataset = ship.ShipDataset()
@@ -77,22 +73,10 @@ for i, info in enumerate(dataset.class_info):
     print("{:3}. {:50}".format(i, info['name']))
 
 
-# config = balloon.BalloonConfig()
-# BALLOON_DIR = DATA_DIR
-#
-# dataset = balloon.BalloonDataset()
-# dataset.load_balloon(BALLOON_DIR, "train")
-#
-# # Must call before using the dataset
-# dataset.prepare()
-#
-# print("Image Count: {}".format(len(dataset.image_ids)))
-# print("Class Count: {}".format(dataset.num_classes))
-# for i, info in enumerate(dataset.class_info):
-#     print("{:3}. {:50}".format(i, info['name']))
-
 # Load and display random samples
-image_ids = np.random.choice(dataset.image_ids, 4)
+#image_ids = np.random.choice(dataset.image_ids, 4)
+image_ids = dataset.image_ids
+print(len(image_ids))
 for idx, image_id in enumerate(image_ids):
     image = dataset.load_image(image_id)
     mask, class_ids = dataset.load_mask(image_id)
@@ -113,30 +97,6 @@ for idx, image_id in enumerate(image_ids):
     # Display image and instances
     visualize.display_instances(image, bbox, mask, class_ids, dataset.class_names, img_idx=idx)
 
-
-# # Load random image and mask.
-# for idx, image_id in enumerate(image_ids):
-#     image = dataset.load_image(image_id)
-#     mask, class_ids = dataset.load_mask(image_id)
-#     original_shape = image.shape
-#     # Resize
-#     image, window, scale, padding, _ = utils.resize_image(
-#         image,
-#         min_dim=config.IMAGE_MIN_DIM,
-#         max_dim=config.IMAGE_MAX_DIM,
-#         mode=config.IMAGE_RESIZE_MODE)
-#     mask = utils.resize_mask(mask, scale, padding)
-#     # Compute Bounding box
-#     bbox = utils.extract_bboxes(mask)
-#     # Display image and additional stats
-#     print("image_id: ", image_id, dataset.image_reference(image_id))
-#     print("Original shape: ", original_shape)
-#     log("image", image)
-#     log("mask", mask)
-#     log("class_ids", class_ids)
-#     log("bbox", bbox)
-#     # Display image and instances
-#     visualize.display_instances(image, bbox, mask, class_ids, dataset.class_names, img_idx=idx)
 
 # Generate Anchors
 backbone_shapes = modellib.compute_backbone_shapes(config, config.IMAGE_SHAPE)
