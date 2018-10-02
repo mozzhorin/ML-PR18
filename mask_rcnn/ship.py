@@ -177,16 +177,14 @@ def train(model, config, dataset=TRAIN_DATA_DIR):
 
     dataset_train, dataset_val = load_dataset(mode="train", dataset_path=dataset)
 
-    # *** This training schedule is an example. Update to your needs ***
-    # Since we're using a very small dataset, and starting from
-    # COCO trained weights, we don't need to train too long. Also,
-    # no need to train all layers, just the heads should do it.
-    print("Training network heads")
+    ## Based on the context, we need the full layer training.
+    # starting from COCO trained weights,
+    print("Training the whole network and its layers")
 
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=30,
-                layers='heads')
+                layers='all')
 
 ## load data from provided path
 def load_dataset(mode="train", dataset_path=TRAIN_DATA_DIR):
@@ -261,9 +259,10 @@ def color_splash(image, mask):
 ##detection
 def detect_and_color_splash(model, image_path=None, video_path=None, submission_file_name_extender=None):
     assert image_path or video_path
-    dataset_to_detect, dataset_val = load_dataset(mode="splash", dataset_path=image_path)
+    #dataset_to_detect, dataset_val = load_dataset(mode="splash", dataset_path=image_path)
     # Image or video?
     masks_dict = {}
+    masks_rle = []
     start = timer()
     if image_path:
         test_image_filenames = load_filenames(image_path)
@@ -271,6 +270,8 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
         #print("Running on {}".format(args.image))
         print("Running on {}".format(image_path))
         print("Image Count for detection", len(test_image_filenames))
+        i = 0
+        k = 0
         for test_image_filename in test_image_filenames:
             # Read image
             #image = imread(args.image)
@@ -278,7 +279,18 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
             # Detect objects
             r = model.detect([image], verbose=1)[0]
             print("image file name", test_image_filename)
-            masks_dict[test_image_filename] = r['masks']
+            ## very memory hungry
+            if submission_file_name_extender is not None:
+                masks_dict[test_image_filename] = r['masks']
+                i += 1
+                k += 1
+                print("counter: ", k)
+                if i == 500:
+                    masks_rle += gather_mask_rle(masks_dict)
+                    masks_dict = {}
+                    i = 0
+                    gc.collect()
+
             # Color splash
             #splash = color_splash(image, r['masks'])
             #save_detected_image(splash, r['masks'], test_image_filename)
@@ -319,8 +331,9 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
     #print("Saved to ", file_name)
     end = timer()
     print("detection duration(in Sec): ", end - start)
-    masks_rle = gather_mask_rle(masks_dict)
-    create_submission_file(masks_rle, submission_file_name_extender=submission_file_name_extender)
+    if submission_file_name_extender is not None:
+        masks_rle = gather_mask_rle(masks_dict)
+        create_submission_file(masks_rle, submission_file_name_extender=submission_file_name_extender)
 
 
 
