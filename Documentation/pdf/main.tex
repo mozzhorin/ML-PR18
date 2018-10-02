@@ -1,0 +1,154 @@
+% -*- Mode:TeX -*-
+
+\documentclass[a4paper,12pt,oneside]{mitthesis}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Packages
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\usepackage{lgrind}
+\pagestyle{plain}
+
+\usepackage{geometry}
+
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=25mm,
+ right=25mm,
+ top=25mm,
+ bottom=20mm,
+ }
+
+\usepackage{graphicx}
+
+\graphicspath{{images/}}
+
+\usepackage{tabularx}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[english]{babel}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{xfrac}
+
+%=============Coding Style==============
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+
+\lstset{ 
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Python,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% ============= hyperref =============
+\usepackage[numbers]{natbib}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+    citecolor = {black},
+    linkcolor = {black},
+    urlcolor = {blue}
+}
+
+\usepackage{etoolbox}
+
+\makeatletter
+\pretocmd{\NAT@citexnum}{\@ifnum{\NAT@ctype>\z@}{\let\NAT@hyper@\relax}{}}{}{}
+\makeatother
+
+% ============= References =============
+
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+%%%changes bibliography-header to references
+\addto\captionsenglish{\renewcommand{\bibname}{References}}
+
+
+% ============= Headers and footers =============
+
+\usepackage{fancyhdr}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{ \leftmark}
+
+\rfoot{\thepage}
+\lfoot{}
+\cfoot{}
+
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+
+% ============= Line Spacing =============
+
+\usepackage{setspace}
+
+\onehalfspacing
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Main Text
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\begin{document}
+
+\thispagestyle{empty}
+\include{Content/titel}
+
+\makeatletter
+\let\partbackup\l@part
+\renewcommand*\l@part[2]{\partbackup{#1}{}}
+
+\pagenumbering{Roman}
+\pagestyle{fancy}
+
+\include{Content/contents}
+
+\pagenumbering{arabic}
+
+\include{Content/chapter1}
+\include{Content/chapter2}
+\include{Content/chapter3}
+\include{Content/chapter4}
+\include{Content/conclusion}
+
+
+\bibliographystyle{unsrt}
+\bibliography{bibliography/references}
+
+
+\end{document}
+

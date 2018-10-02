@@ -1,0 +1,542 @@
+% This file was created with JabRef 2.6.
+% Encoding: Cp1252
+
+@INPROCEEDINGS{lussier1998,
+  author = {Eric Fosler-lussier},
+  title = {Markov Models and Hidden Markov Models: A Brief Tutorial},
+  booktitle = {CA TR-98-041;1998;p1 Page 132 of 141},
+  year = {1998}
+}
+
+@INPROCEEDINGS{Abe2000,
+  author = {Abe, K. and Saito, H. and Ozawa, S.},
+  title = {3-D drawing system via hand motion recognition from two cameras},
+  booktitle = {Systems, Man, and Cybernetics, 2000 IEEE International Conference
+	on},
+  year = {2000},
+  volume = {2},
+  pages = {840-845 vol.2},
+  doi = {10.1109/ICSMC.2000.885954},
+  issn = {1062-922X},
+  keywords = {feature extraction;gesture recognition;motion estimation;user interfaces;virtual
+	reality;3-D Drawing System;3D position estimation;3D virtual objects;Finger
+	Windows;Palm Square;cameras;distance-transformed image;fingertip;hand
+	motion recognition;hand poses;human interface system;input image;real
+	time 3D drawing system;side-view;top-view;user command;user hand
+	motion;virtual 3D space;Application software;Cameras;Computer displays;Computer
+	interfaces;Fingers;History;Humans;Image recognition;Mice;Pattern
+	matching}
+}
+
+@INCOLLECTION{Bader2009,
+  author = {Thomas Bader and Ren{\'e} R{\"a}pple and J{\"u}rgen Beyerer},
+  title = {Fast Invariant Contour-Based Classification of Hand Symbols for HCI},
+  booktitle = {Computer Analysis of Images and Patterns},
+  publisher = {Springer Berlin Heidelberg},
+  year = {2009},
+  editor = {Jiang, Xiaoyi and Petkov, Nicolai},
+  volume = {5702},
+  series = {Lecture Notes in Computer Science},
+  pages = {689-696},
+  doi = {10.1007/978-3-642-03767-2_84},
+  isbn = {978-3-642-03766-5},
+  language = {English},
+  url = {http://dx.doi.org/10.1007/978-3-642-03767-2_84}
+}
+
+@INPROCEEDINGS{BerghDec.2009,
+  author = {M. Van den Bergh and E. Koller-Meier and L Van Gool},
+  title = {Haarlet-based hand gesture recognition for 3d interaction},
+  booktitle = {Workshop on Applications of Computer Vision (WACV)},
+  year = {Dec. 2009},
+  pages = {1 - 8},
+  timestamp = {2015.10.10}
+}
+
+@ARTICLE{Cui2000157,
+  author = {Yuntao Cui and Juyang Weng},
+  title = {Appearance-Based Hand Sign Recognition from Intensity Image Sequences
+	},
+  journal = {Computer Vision and Image Understanding },
+  year = {2000},
+  volume = {78},
+  pages = {157 - 176},
+  number = {2},
+  doi = {http://dx.doi.org/10.1006/cviu.2000.0837},
+  issn = {1077-3142},
+  url = {http://www.sciencedirect.com/science/article/pii/S1077314200908373}
+}
+
+@MISC{hizookdc,
+  author = {Travis Deyle},
+  title = {Low-Cost Depth Cameras to Emerge in 2010},
+  howpublished = {\url{http://www.hizook.com/blog/2010/03/28/low-cost-depth-cameras-aka-ranging-cameras-or-rgb-d-cameras-emerge-2010}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {http://www.hizook.com/blog/2010/03/28/low-cost-depth-cameras-aka-ranging-cameras-or-rgb-d-cameras-emerge-2010}
+}
+
+@INPROCEEDINGS{Elmezain,
+  author = {Mahmoud Elmezain and Ayoub Al-hamadi and Bernd Michaelis},
+  title = {A Hidden Markov Model-Based Isolated and Meaningful Hand Gesture
+	Recognition},
+  pages = {2009}
+}
+
+@PHDTHESIS{FrankNov.2004,
+  author = {Forster Frank},
+  title = {Real-Time Range Imaging for Human-Machine Interfaces},
+  school = {Technische Universit�t M�nchen},
+  year = {Nov. 2004},
+  timestamp = {2015.10.10}
+}
+
+@INPROCEEDINGS{Frati2011,
+  author = {Frati, V. and Prattichizzo, D.},
+  title = {Using Kinect for hand tracking and rendering in wearable haptics},
+  booktitle = {World Haptics Conference (WHC), 2011 IEEE},
+  year = {2011},
+  pages = {317-321},
+  month = {June},
+  doi = {10.1109/WHC.2011.5945505},
+  keywords = {avatars;computer animation;haptic interfaces;object tracking;rendering
+	(computer graphics);tactile sensors;Kinect depth sensor;Microsoft;force
+	rendering algorithm:;hand avatar animation;hand tracking;position
+	sensing;virtual reality;wearable haptic display;Avatars;Cameras;Force;Haptic
+	interfaces;Indexes;Three dimensional displays;Thumb}
+}
+
+@ARTICLE{HenneSept.2011,
+  author = {Henne, V.},
+  title = {Hand Gesture Recognition with a Depth-Sensing Camera},
+  year = {Sept. 2011},
+  timestamp = {2015.10.10}
+}
+
+@BOOK{huang1990,
+  title = {Hidden Markov models for speech recognition},
+  publisher = {Edinburgh University Press},
+  year = {1990},
+  author = {Huang, X. D.},
+  address = {Edinburgh},
+  isbn = {0748601627}
+}
+
+@MISC{xb360ktd,
+  author = {iFixit},
+  title = {Xbox 360 Kinect Teardown},
+  howpublished = {\url{https://www.ifixit.com/Teardown/Xbox+360+Kinect+Teardown/4066}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://www.ifixit.com/Teardown/Xbox+360+Kinect+Teardown/4066}
+}
+
+@MISC{xbkifixtd,
+  author = {iFixit},
+  title = {Xbox One Kinect Teardown},
+  howpublished = {\url{https://www.ifixit.com/Teardown/Xbox+One+Kinect+Teardown/19725}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://www.ifixit.com/Teardown/Xbox+One+Kinect+Teardown/19725}
+}
+
+@INPROCEEDINGS{Keskin2003,
+  author = {Keskin, C. and Erkan, A. and Akarun, L},
+  title = {Real time hand tracking and 3d gesture recognition for interactive
+	interfaces using hmm},
+  booktitle = {Proceedings of International Conference on Artificial Neural Networks},
+  year = {2003},
+  timestamp = {2015.10.11}
+}
+
+@INPROCEEDINGS{Kulshreshth2013,
+  author = {Kulshreshth, A. and Zorn, C. and LaViola, J.J.},
+  title = {Poster: Real-time markerless kinect based finger tracking and hand
+	gesture recognition for HCI},
+  booktitle = {3D User Interfaces (3DUI), 2013 IEEE Symposium on},
+  year = {2013},
+  pages = {187-188},
+  month = {March},
+  doi = {10.1109/3DUI.2013.6550241},
+  keywords = {Fourier analysis;curve fitting;gesture recognition;human computer
+	interaction;image matching;object detection;object tracking;palmprint
+	recognition;Fourier descriptors;HCI;Microsoft Kinect;equidistant
+	points;feature vectors;finger detection;hand gesture recognition;hand
+	silhouette detection;human computer interaction;input device;k-curvature
+	algorithm;real-time markerless Kinect based finger tracking;template
+	matching;user interfaces;Accuracy;Gesture recognition;Real-time systems;Sensors;Thumb;Tracking;Finger
+	tracking;Microsoft Kinect;hand gestures;human computer interaction}
+}
+
+@ARTICLE{Lee1999,
+  author = {Hyeon-Kyu Lee and Kim, J.H.},
+  title = {An HMM-based threshold model approach for gesture recognition},
+  journal = {Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  year = {1999},
+  volume = {21},
+  pages = {961-973},
+  number = {10},
+  month = {Oct},
+  doi = {10.1109/34.799904},
+  issn = {0162-8828},
+  keywords = {computer vision;entropy;feature extraction;gesture recognition;hidden
+	Markov models;image segmentation;interactive systems;probability;feature
+	extraction;hand gesture recognition;hidden Markov model;man computer
+	interaction;pattern recognition;probability distributions;relative
+	entropy;segmentation;state reduction;threshold model;Entropy;Hidden
+	Markov models;Impedance matching;Pattern matching;Pattern recognition;Probability
+	distribution;Shape;Spatiotemporal phenomena;Speech recognition;Switches}
+}
+
+@INPROCEEDINGS{Lin2000,
+  author = {John Lin and Ying Wu and Thomas S. Huang},
+  title = {Modeling the Constraints of Human Hand Motion},
+  booktitle = {Workshop on Human Motion},
+  year = {2000},
+  pages = {121 - 126},
+  timestamp = {2015.10.10}
+}
+
+@ARTICLE{Mehler14,
+  author = {Alexander Mehler and Andy L{\"u}cking and Giuseppe Abrami},
+  title = {{WikiNect}: Image Schemata as a Basis of Gestural Writing for Kinetic
+	Museum Wikis},
+  journal = {Universal Access in the Information Society},
+  year = {Sept. 2014},
+  volume = {\textit{volum} 14},
+  pages = {\textit{pages} 333-349},
+  timestamp = {2015.10.10}
+}
+
+@MISC{msk2warch,
+  author = {Microsoft},
+  title = {Kinect for Windows Architecture},
+  howpublished = {\url{https://msdn.microsoft.com/en-us/library/jj131023.aspx}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://msdn.microsoft.com/en-us/library/jj131023.aspx}
+}
+
+@MISC{mskcms,
+  author = {Microsoft},
+  title = {Kinect Coordinate mapping},
+  howpublished = {\url{https://msdn.microsoft.com/en-us/library/dn785530.aspx}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://msdn.microsoft.com/en-us/library/dn785530.aspx}
+}
+
+@MISC{msksdk2,
+  author = {Microsoft},
+  title = {Kinect for Windows SDK 2.0},
+  howpublished = {\url{https://msdn.microsoft.com/library/dn799271.aspx}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://msdn.microsoft.com/library/dn799271.aspx}
+}
+
+@MISC{msksrq,
+  author = {Microsoft},
+  title = {Kinect 2 System Requirements},
+  howpublished = {\url{https://msdn.microsoft.com/en-us/library/dn782036.aspx}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://msdn.microsoft.com/en-us/library/dn782036.aspx}
+}
+
+@MISC{mskwn,
+  author = {Microsoft},
+  title = {What's New in SDK 2.0},
+  howpublished = {\url{https://msdn.microsoft.com/en-us/library/dn782041.aspx}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://msdn.microsoft.com/en-us/library/dn782041.aspx}
+}
+
+@MISC{msvakjs,
+  author = {Microsoft},
+  title = {Programming Kinect for Windows v2 Jump Star},
+  howpublished = {\url{https://www.microsoftvirtualacademy.com/en-us/training-courses/programming-kinect-for-windows-v2-jump-start-9088?l=Ju7xHKf4_6604984382}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {https://www.microsoftvirtualacademy.com/en-us/training-courses/programming-kinect-for-windows-v2-jump-start-9088?l=Ju7xHKf4_6604984382}
+}
+
+@MISC{opencvdoc,
+  author = {OpenCV},
+  title = {OpenCv Documentation},
+  howpublished = {\url{http://docs.opencv.org/3.0.0/}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {http://docs.opencv.org/3.0.0/}
+}
+
+@MISC{opencvpoly,
+  author = {OpenCV},
+  title = {OpenCV ApproxyPolyDP Method},
+  howpublished = {\url{http://docs.opencv.org/modules/imgproc/doc/structural_analysis_and_shape_descriptors.html}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {http://docs.opencv.org/modules/imgproc/doc/structural_analysis_and_shape_descriptors.html#approxpolydp}
+}
+
+@ARTICLE{Pavlovic1997,
+  author = {Pavlovic, V.I. and Sharma, R. and Huang, T.S.},
+  title = {Visual interpretation of hand gestures for human-computer interaction:
+	a review},
+  journal = {Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  year = {1997},
+  volume = {19},
+  pages = {677-695},
+  number = {7},
+  month = {Jul},
+  doi = {10.1109/34.598226},
+  issn = {0162-8828},
+  keywords = {image recognition;motion estimation;reviews;user interfaces;HCI;computationally
+	efficient purposive approaches;hand gestures;human-computer interaction;real-time
+	requirements;vision-based gesture recognition;visual interpretation;Communications
+	technology;Computational modeling;Computer displays;Computer vision;Human
+	computer interaction;Keyboards;Motion analysis;Potential well;Tracking;Virtual
+	reality}
+}
+
+@BOOK{Ploetz2011,
+  title = {Markov models for handwriting recognition},
+  publisher = {Springer},
+  year = {2011},
+  author = {Pl{\"o}tz, Thomas},
+  address = {London New York},
+  isbn = {978-1-4471-2187-9}
+}
+
+@ARTICLE{Rabiner1989,
+  author = {Rabiner, L.},
+  title = {A tutorial on hidden Markov models and selected applications in speech
+	recognition},
+  journal = {Proceedings of the IEEE},
+  year = {1989},
+  volume = {77},
+  pages = {257-286},
+  number = {2},
+  month = {Feb},
+  doi = {10.1109/5.18626},
+  issn = {0018-9219},
+  keywords = {Markov processes;speech recognition;balls-in-urns system;coin-tossing;discrete
+	Markov chains;ergodic models;hidden Markov models;hidden states;left-right
+	models;probabilistic function;speech recognition;Distortion;Hidden
+	Markov models;Mathematical model;Multiple signal classification;Signal
+	processing;Speech recognition;Statistical analysis;Stochastic processes;Temperature
+	measurement;Tutorial}
+}
+
+@PHDTHESIS{Schwarz2012,
+  author = {Schwarz, Loren Arthur},
+  title = {Machine Learning for Human Motion Analysis and Gesture Recognition},
+  school = {Technische Universit{\"a}t M{\"u}nchen},
+  year = {2012},
+  type = {Dissertation},
+  address = {München}
+}
+
+@BOOK{Sharp2007Print,
+  title = {Interaction design : beyond human-computer interaction},
+  publisher = {Wiley},
+  year = {2007. Print.},
+  author = {Sharp, Helen and Yvonne Rogers and Jenny Preece},
+  address = {Chichester Hoboken, NJ},
+  edition = {2nd},
+  timestamp = {2015.10.10}
+}
+
+@ARTICLE{Sklansky1982,
+  author = {Sklansky, Jack},
+  title = {Finding the Convex Hull of a Simple Polygon},
+  journal = {Pattern Recogn. Lett.},
+  year = {1982},
+  volume = {1},
+  pages = {79--83},
+  number = {2},
+  month = dec,
+  acmid = {2306049},
+  address = {New York, NY, USA},
+  doi = {10.1016/0167-8655(82)90016-2},
+  issn = {0167-8655},
+  issue_date = {December, 1982},
+  keywords = {Pattern recognition, algorithmic complexity, computational geometry,
+	convex hull, simple polygon},
+  numpages = {5},
+  publisher = {Elsevier Science Inc.},
+  url = {http://dx.doi.org/10.1016/0167-8655(82)90016-2}
+}
+
+@BOOK{SmithNolen-HoeksemaFredricksonLoftus200212,
+  title = {Atkinson and Hilgard's Introduction to Psychology (with Lecture Notes
+	and InfoTrac)},
+  publisher = {Wadsworth Publishing},
+  year = {2002},
+  author = {Edward E. Smith and Susan Nolen-Hoeksema and Barbara Fredrickson
+	and Geoffrey Loftus},
+  edition = {14},
+  month = {12},
+  isbn = {9780155050693},
+  price = {$230.95},
+  timestamp = {2015.10.10},
+  totalpages = {800},
+  url = {http://amazon.com/o/ASIN/0155050699/}
+}
+
+@INPROCEEDINGS{Starner1995,
+  author = {Starner, T. and Pentland, A.},
+  title = {Real-time American Sign Language recognition from video using hidden
+	Markov models},
+  booktitle = {Computer Vision, 1995. Proceedings., International Symposium on},
+  year = {1995},
+  pages = {265-270},
+  month = {Nov},
+  doi = {10.1109/ISCV.1995.477012},
+  keywords = {handicapped aids;hidden Markov models;image recognition;real-time
+	systems;American Sign Language;American Sign Language recognition;HMM-based
+	system;hand gestures;hidden Markov models;real-time;sign language;visual
+	recognition;Face recognition;Fingers;Handicapped aids;Handwriting
+	recognition;Hidden Markov models;Laboratories;Natural languages;Real
+	time systems;Shape;Speech recognition}
+}
+
+@ARTICLE{Suzuki1985,
+  author = {Satoshi Suzuki and KeiichiA be},
+  title = {Topological structural analysis of digitized binary images by border
+	following },
+  journal = {Computer Vision, Graphics, and Image Processing },
+  year = {1985},
+  volume = {30},
+  pages = {32 - 46},
+  number = {1},
+  doi = {http://dx.doi.org/10.1016/0734-189X(85)90016-7},
+  issn = {0734-189X},
+  url = {http://www.sciencedirect.com/science/article/pii/0734189X85900167}
+}
+
+@INPROCEEDINGS{Tang1-8Dec.2013,
+  author = {Danhang Tang and Tsz-Ho Yu and Tae-Kyun Kim},
+  title = {Real-Time Articulated Hand Pose Estimation Using Semi-supervised
+	Transductive Regression Forests},
+  booktitle = {IEEE International Conference on Computer Vision (ICCV)},
+  year = {1-8 Dec. 2013},
+  pages = {3224 - 3231},
+  timestamp = {2015.10.10}
+}
+
+@MISC{mssvtof,
+  author = {Microsoft Silicon Valley},
+  title = {Tim-of-Fligh Sensor},
+  howpublished = {\url{http://www.microsoftsiliconvalley.com/stories/story/timeofflight-sensor}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {http://www.microsoftsiliconvalley.com/stories/story/timeofflight-sensor}
+}
+
+@MISC{primesk,
+  author = {William Wong},
+  title = {How Microsoft�s PrimeSense-based Kinect Really Works},
+  howpublished = {\url{http://electronicdesign.com/embedded/how-microsoft-s-primesense-based-kinect-really-works}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.10},
+  url = {http://electronicdesign.com/embedded/how-microsoft-s-primesense-based-kinect-really-works}
+}
+
+@INPROCEEDINGS{XiaJune2011,
+  author = {Lu Xia and Chia-Chih Chen and J.K. Aggarwal},
+  title = {Human Detection Using Depth Information by Kinect},
+  booktitle = {Computer Society Conference on Computer Vision and Pattern Recognition
+	Workshops (CVPRW)},
+  year = {June 2011},
+  pages = {15 - 22},
+  timestamp = {2015.10.10}
+}
+
+@INPROCEEDINGS{Yamato1992,
+  author = {Yamato, J. and Jun Ohya and Ishii, K.},
+  title = {Recognizing human action in time-sequential images using hidden Markov
+	model},
+  booktitle = {Computer Vision and Pattern Recognition, 1992. Proceedings CVPR '92.,
+	1992 IEEE Computer Society Conference on},
+  year = {1992},
+  pages = {379-385},
+  month = {Jun},
+  doi = {10.1109/CVPR.1992.223161},
+  issn = {1063-6919},
+  keywords = {feature extraction;hidden Markov models;vector quantisation;feature-based
+	bottom-up approach;hidden Markov model;human action recognition;image
+	feature vector sequence;learning capability;person-independent action
+	recognizer;real time-sequential images;symbol sequence;time-scale
+	invariability;time-sequential images;vector quantization;Biological
+	system modeling;Hidden Markov models;Humans;Image recognition;Image
+	reconstruction;Laboratories;Layout;Pattern recognition;Robustness;Target
+	recognition}
+}
+
+@phdthesis{
+
+  Type = {dissertation},
+  Title = {Hand gesture spotting and recognition using HMMs and CRFs in color image sequences},
+  Author = {Elmezain, Mahmoud Othman Selim Mahmoud},
+  School = {Magdeburg Universit{\"a}t},
+  Year = {2008},
+} 
+
+@inproceedings{zhang2001,
+  title={A comparative study on shape retrieval using Fourier descriptors with different shape signatures},
+  author={Zhang, Dengsheng and Lu, Guojun},
+  booktitle={Proc. International Conference on Intelligent Multimedia and Distance Education (ICIMADE01)},
+  year={2001}
+}
+
+@INPROCEEDINGS{Zhang2002,
+  author = {Dengsheng Zhang and Guojun Lu},
+  title = {A comparative Study of Fourier Descriptors for Shape Representation
+	and Retrieval},
+  booktitle = {Proc. of 5th Asian Conference on Computer Vision (ACCV},
+  year = {2002},
+  pages = {646--651},
+  publisher = {Springer}
+}
+
+@BOOK{Tzovaras201011,
+  title = {Multimodal User Interfaces: From Signals to Interaction (Signals
+	and Communication Technology)},
+  publisher = {Springer},
+  year = {2010},
+  editor = {Dimitros Tzovaras},
+  edition = {Softcover reprint of hardcover 1st ed. 2008},
+  month = {11},
+  isbn = {9783642097034},
+  price = {$209.00},
+  timestamp = {2015.10.10},
+  totalpages = {315},
+  url = {http://amazon.com/o/ASIN/3642097030/}
+}
+
+@MISC{opnNIkinec2Driver,
+  title = {OpenNI 2 Kinect v2 Driver},
+  howpublished = {\url{https://github.com/occipital/OpenNI2/tree/kinect2/Source/Drivers/Kinect2}},
+  timestamp = {2015.10.11},
+  url = {https://github.com/occipital/OpenNI2/tree/kinect2/Source/Drivers/Kinect2}
+}
+
+@MISC{RealtimepalmContour,
+  title = {Real-time palm tracking and hand gesture estimation based on forearm
+	contour},
+  howpublished = {\url{https://www.youtube.com/watch?v=th8hUD7Ajg4}},
+  note = {Last accessed 09/10/2015},
+  timestamp = {2015.10.11},
+  url = {https://www.youtube.com/watch?v=th8hUD7Ajg4}
+}
+
+@comment{jabref-meta: selector_keywords:}
+
+@comment{jabref-meta: selector_journal:}
+
+@comment{jabref-meta: selector_publisher:}
+
+@comment{jabref-meta: selector_author:}
+

@@ -1,0 +1,289 @@
+\begin{thebibliography}{10}
+
+\bibitem{lussier1998}
+Eric Fosler-lussier.
+\newblock Markov models and hidden markov models: A brief tutorial.
+\newblock In {\em CA TR-98-041;1998;p1 Page 132 of 141}, 1998.
+
+\bibitem{Abe2000}
+K.~Abe, H.~Saito, and S.~Ozawa.
+\newblock 3-d drawing system via hand motion recognition from two cameras.
+\newblock In {\em Systems, Man, and Cybernetics, 2000 IEEE International
+  Conference on}, volume~2, pages 840--845 vol.2, 2000.
+
+\bibitem{Bader2009}
+Thomas Bader, Ren{\'e} R{\"a}pple, and J{\"u}rgen Beyerer.
+\newblock Fast invariant contour-based classification of hand symbols for hci.
+\newblock In Xiaoyi Jiang and Nicolai Petkov, editors, {\em Computer Analysis
+  of Images and Patterns}, volume 5702 of {\em Lecture Notes in Computer
+  Science}, pages 689--696. Springer Berlin Heidelberg, 2009.
+
+\bibitem{BerghDec.2009}
+M.~Van den Bergh, E.~Koller-Meier, and L~Van Gool.
+\newblock Haarlet-based hand gesture recognition for 3d interaction.
+\newblock In {\em Workshop on Applications of Computer Vision (WACV)}, pages 1
+  -- 8, Dec. 2009.
+
+\bibitem{Cui2000157}
+Yuntao Cui and Juyang Weng.
+\newblock Appearance-based hand sign recognition from intensity image
+  sequences.
+\newblock {\em Computer Vision and Image Understanding}, 78(2):157 -- 176,
+  2000.
+
+\bibitem{hizookdc}
+Travis Deyle.
+\newblock Low-cost depth cameras to emerge in 2010.
+\newblock
+  \url{http://www.hizook.com/blog/2010/03/28/low-cost-depth-cameras-aka-ranging-cameras-or-rgb-d-cameras-emerge-2010}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{Elmezain}
+Mahmoud Elmezain, Ayoub Al-hamadi, and Bernd Michaelis.
+\newblock A hidden markov model-based isolated and meaningful hand gesture
+  recognition.
+\newblock page 2009.
+
+\bibitem{Elmezain2010}
+Mahmoud Othman Selim~Mahmoud Elmezain.
+\newblock {\em Hand gesture spotting and recognition using HMMs and CRFs in
+  color image sequences}.
+\newblock dissertation, Magdeburg Universit{\"a}t, 2010.
+
+\bibitem{FrankNov.2004}
+Forster Frank.
+\newblock {\em Real-Time Range Imaging for Human-Machine Interfaces}.
+\newblock PhD thesis, Technische Universit{\"a}t M{\"u}nchen, Nov. 2004.
+
+\bibitem{Frati2011}
+V.~Frati and D.~Prattichizzo.
+\newblock Using kinect for hand tracking and rendering in wearable haptics.
+\newblock In {\em World Haptics Conference (WHC), 2011 IEEE}, pages 317--321,
+  June 2011.
+
+\bibitem{HenneSept.2011}
+V.~Henne.
+\newblock Hand gesture recognition with a depth-sensing camera.
+\newblock Sept. 2011.
+
+\bibitem{huang1990}
+X.~D. Huang.
+\newblock {\em Hidden Markov models for speech recognition}.
+\newblock Edinburgh University Press, Edinburgh, 1990.
+
+\bibitem{xb360ktd}
+iFixit.
+\newblock Xbox 360 kinect teardown.
+\newblock \url{https://www.ifixit.com/Teardown/Xbox+360+Kinect+Teardown/4066}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{xbkifixtd}
+iFixit.
+\newblock Xbox one kinect teardown.
+\newblock \url{https://www.ifixit.com/Teardown/Xbox+One+Kinect+Teardown/19725}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{Keskin2003}
+C.~Keskin, A.~Erkan, and L~Akarun.
+\newblock Real time hand tracking and 3d gesture recognition for interactive
+  interfaces using hmm.
+\newblock In {\em Proceedings of International Conference on Artificial Neural
+  Networks}, 2003.
+
+\bibitem{Kulshreshth2013}
+A.~Kulshreshth, C.~Zorn, and J.J. LaViola.
+\newblock Poster: Real-time markerless kinect based finger tracking and hand
+  gesture recognition for hci.
+\newblock In {\em 3D User Interfaces (3DUI), 2013 IEEE Symposium on}, pages
+  187--188, March 2013.
+
+\bibitem{Lee1999}
+Hyeon-Kyu Lee and J.H. Kim.
+\newblock An hmm-based threshold model approach for gesture recognition.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 21(10):961--973, Oct 1999.
+
+\bibitem{Lin2000}
+John Lin, Ying Wu, and Thomas~S. Huang.
+\newblock Modeling the constraints of human hand motion.
+\newblock In {\em Workshop on Human Motion}, pages 121 -- 126, 2000.
+
+\bibitem{Mehler14}
+Alexander Mehler, Andy L{\"u}cking, and Giuseppe Abrami.
+\newblock {WikiNect}: Image schemata as a basis of gestural writing for kinetic
+  museum wikis.
+\newblock {\em Universal Access in the Information Society}, \textit{volum}
+  14:\textit{pages} 333--349, Sept. 2014.
+
+\bibitem{msk2warch}
+Microsoft.
+\newblock Kinect for windows architecture.
+\newblock \url{https://msdn.microsoft.com/en-us/library/jj131023.aspx}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{mskcms}
+Microsoft.
+\newblock Kinect coordinate mapping.
+\newblock \url{https://msdn.microsoft.com/en-us/library/dn785530.aspx}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{msksdk2}
+Microsoft.
+\newblock Kinect for windows sdk 2.0.
+\newblock \url{https://msdn.microsoft.com/library/dn799271.aspx}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{msksrq}
+Microsoft.
+\newblock Kinect 2 system requirements.
+\newblock \url{https://msdn.microsoft.com/en-us/library/dn782036.aspx}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{mskwn}
+Microsoft.
+\newblock What's new in sdk 2.0.
+\newblock \url{https://msdn.microsoft.com/en-us/library/dn782041.aspx}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{msvakjs}
+Microsoft.
+\newblock Programming kinect for windows v2 jump star.
+\newblock
+  \url{https://www.microsoftvirtualacademy.com/en-us/training-courses/programming-kinect-for-windows-v2-jump-start-9088?l=Ju7xHKf4_6604984382}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{opencvdoc}
+OpenCV.
+\newblock Opencv documentation.
+\newblock \url{http://docs.opencv.org/3.0.0/}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{opencvpoly}
+OpenCV.
+\newblock Opencv approxypolydp method.
+\newblock
+  \url{http://docs.opencv.org/modules/imgproc/doc/structural_analysis_and_shape_descriptors.html}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{Pavlovic1997}
+V.I. Pavlovic, R.~Sharma, and T.S. Huang.
+\newblock Visual interpretation of hand gestures for human-computer
+  interaction: a review.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 19(7):677--695, Jul 1997.
+
+\bibitem{Ploetz2011}
+Thomas Pl{\"o}tz.
+\newblock {\em Markov models for handwriting recognition}.
+\newblock Springer, London New York, 2011.
+
+\bibitem{Rabiner1989}
+L.~Rabiner.
+\newblock A tutorial on hidden markov models and selected applications in
+  speech recognition.
+\newblock {\em Proceedings of the IEEE}, 77(2):257--286, Feb 1989.
+
+\bibitem{Schwarz2012}
+Loren~Arthur Schwarz.
+\newblock {\em Machine Learning for Human Motion Analysis and Gesture
+  Recognition}.
+\newblock Dissertation, Technische Universit{\"a}t M{\"u}nchen, München, 2012.
+
+\bibitem{Sharp2007Print}
+Helen Sharp, Yvonne Rogers, and Jenny Preece.
+\newblock {\em Interaction design : beyond human-computer interaction}.
+\newblock Wiley, Chichester Hoboken, NJ, 2nd edition, 2007. Print.
+
+\bibitem{Sklansky1982}
+Jack Sklansky.
+\newblock Finding the convex hull of a simple polygon.
+\newblock {\em Pattern Recogn. Lett.}, 1(2):79--83, December 1982.
+
+\bibitem{SmithNolen-HoeksemaFredricksonLoftus200212}
+Edward~E. Smith, Susan Nolen-Hoeksema, Barbara Fredrickson, and Geoffrey
+  Loftus.
+\newblock {\em Atkinson and Hilgard's Introduction to Psychology (with Lecture
+  Notes and InfoTrac)}.
+\newblock Wadsworth Publishing, 14 edition, 12 2002.
+
+\bibitem{Starner1995}
+T.~Starner and A.~Pentland.
+\newblock Real-time american sign language recognition from video using hidden
+  markov models.
+\newblock In {\em Computer Vision, 1995. Proceedings., International Symposium
+  on}, pages 265--270, Nov 1995.
+
+\bibitem{Suzuki1985}
+Satoshi Suzuki and KeiichiA be.
+\newblock Topological structural analysis of digitized binary images by border
+  following.
+\newblock {\em Computer Vision, Graphics, and Image Processing}, 30(1):32 --
+  46, 1985.
+
+\bibitem{Tang1-8Dec.2013}
+Danhang Tang, Tsz-Ho Yu, and Tae-Kyun Kim.
+\newblock Real-time articulated hand pose estimation using semi-supervised
+  transductive regression forests.
+\newblock In {\em IEEE International Conference on Computer Vision (ICCV)},
+  pages 3224 -- 3231, 1-8 Dec. 2013.
+
+\bibitem{mssvtof}
+Microsoft~Silicon Valley.
+\newblock Tim-of-fligh sensor.
+\newblock
+  \url{http://www.microsoftsiliconvalley.com/stories/story/timeofflight-sensor}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{primesk}
+William Wong.
+\newblock How microsoft�s primesense-based kinect really works.
+\newblock
+  \url{http://electronicdesign.com/embedded/how-microsoft-s-primesense-based-kinect-really-works}.
+\newblock Last accessed 09/10/2015.
+
+\bibitem{XiaJune2011}
+Lu~Xia, Chia-Chih Chen, and J.K. Aggarwal.
+\newblock Human detection using depth information by kinect.
+\newblock In {\em Computer Society Conference on Computer Vision and Pattern
+  Recognition Workshops (CVPRW)}, pages 15 -- 22, June 2011.
+
+\bibitem{Yamato1992}
+J.~Yamato, Jun Ohya, and K.~Ishii.
+\newblock Recognizing human action in time-sequential images using hidden
+  markov model.
+\newblock In {\em Computer Vision and Pattern Recognition, 1992. Proceedings
+  CVPR '92., 1992 IEEE Computer Society Conference on}, pages 379--385, Jun
+  1992.
+
+\bibitem{Zhang2002}
+Dengsheng Zhang and Guojun Lu.
+\newblock A comparative study of fourier descriptors for shape representation
+  and retrieval.
+\newblock In {\em Proc. of 5th Asian Conference on Computer Vision (ACCV},
+  pages 646--651. Springer, 2002.
+
+\bibitem{zhang2001}
+Dengsheng Zhang and Guojun Lu.
+\newblock A comparative study on shape retrieval using fourier descriptors with
+  different shape signatures.
+\newblock In {\em Proc. International Conference on Intelligent Multimedia and
+  Distance Education (ICIMADE01)}, 2001.
+
+\bibitem{Tzovaras201011}
+Dimitros Tzovaras, editor.
+\newblock {\em Multimodal User Interfaces: From Signals to Interaction (Signals
+  and Communication Technology)}.
+\newblock Springer, softcover reprint of hardcover 1st ed. 2008 edition, 11
+  2010.
+
+\bibitem{opnNIkinec2Driver}
+Openni 2 kinect v2 driver.
+\newblock
+  \url{https://github.com/occipital/OpenNI2/tree/kinect2/Source/Drivers/Kinect2}.
+
+\bibitem{RealtimepalmContour}
+Real-time palm tracking and hand gesture estimation based on forearm contour.
+\newblock \url{https://www.youtube.com/watch?v=th8hUD7Ajg4}.
+\newblock Last accessed 09/10/2015.
+
+\end{thebibliography}
