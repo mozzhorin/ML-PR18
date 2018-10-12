@@ -3,7 +3,8 @@ Preclassification: functions for training and validating.
 '''
 # coding: utf-8
 
-from torchnet import meter
+#from torchnet import meter
+
 import torch
 import numpy as np
 import pandas as pd
@@ -260,7 +261,7 @@ def predict(test_loader, model, device, predict_file, threshold=0.5,):
             logger.info('Predicted %s from %s images.', i, test_size)
             
     predictions.to_csv(predict_file, sep='\t', header=False, index=False)
-    predictions[predictions['Label']!='0']['ImageId'].to_csv('filtered_ships.txt', sep='\t', header=False, index=False)
+    predictions[predictions['Label']!='0']['ImageId'].to_csv('filtered_ships_v2.txt', sep='\t', header=False, index=False)
     run_time = time.time() - start_time
     print('FINISH PREDICTIONS', time.strftime("%Y-%m-%d %H:%M:%S"))
     logger.info('FINISH PREDICTIONS')

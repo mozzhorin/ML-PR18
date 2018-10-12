@@ -158,7 +158,8 @@ class AirbusDS_test(D.Dataset):
         
         image = Image.open(str(self.path_test + self.test_files[index]))
         ImageId = self.test_files[index]
-        return self.transform(image), ImageId
+        image = self.transform(image)
+        return image, ImageId
     
     def __len__(self):
         """
@@ -193,7 +194,7 @@ class AirbusDS:
         
         self.root = root
         self.path_train = root + 'train/'
-        self.path_test = root + 'test/'
+        self.path_test = root + 'test_v2/'
         self.aug = aug
         self.empty_frac = empty_frac
         self.resize_factor = resize_factor
@@ -249,8 +250,8 @@ class AirbusDS:
         self.train_ids = pd.concat([ships, no_ships], axis=0)  
         
         # Define transformations for augmentation and without it
-        self.transform_no_aug = transforms.Compose([transforms.Resize((int(768/self.resize_factor),
-                                                                       int(768/self.resize_factor))), transforms.ToTensor()])
+        self.transform_no_aug = Compose([Resize(height=int(768/self.resize_factor), width=int(768/self.resize_factor))])
+
         if self.aug:
             self.transform = Compose([Resize(height=int(768/self.resize_factor), width=int(768/self.resize_factor)),
                                       OneOf([RandomRotate90(), Transpose(), Flip()], p=0.3)])
