@@ -97,15 +97,11 @@ class AirbusDS_train(D.Dataset):
         ImageId = self.filenames[index]
         label = self.get_label(ImageId)
         mask = self.get_mask(ImageId)
-        # Check if augmentation is required.
-        if self.aug:
-            data = {"image": np.array(image), "mask": mask}
-            transformed = self.transform(**data)
-            image = transformed['image']/255
-            image = np.transpose(image, (2, 0, 1))
-            return image, transformed['mask'][np.newaxis,:,:], label
-        else:        
-            return self.transform(image), mask[np.newaxis,:,:], label 
+        data = {"image": np.array(image), "mask": mask}
+        transformed = self.transform(**data)
+        image = transformed['image']/255
+        image = np.transpose(image, (2, 0, 1))
+        return image, transformed['mask'][np.newaxis,:,:], label
 
     def __len__(self):
         """
@@ -129,14 +125,11 @@ class AirbusDS_val(AirbusDS_train):
         ImageId = self.filenames[index]
         label = self.get_label(ImageId)
                     
-        if self.aug:
-            data = {"image": np.array(image)}
-            transformed = self.transform(**data)
-            image = transformed['image']/255
-            image = np.transpose(image, (2, 0, 1))
-            return image, label
-        else:
-            return self.transform(image), label
+        data = {"image": np.array(image)}
+        transformed = self.transform(**data)
+        image = transformed['image']/255
+        image = np.transpose(image, (2, 0, 1))
+        return image, label
 
 
 class AirbusDS_test(D.Dataset):
@@ -158,7 +151,11 @@ class AirbusDS_test(D.Dataset):
         
         image = Image.open(str(self.path_test + self.test_files[index]))
         ImageId = self.test_files[index]
-        return self.transform(image), ImageId
+        data = {"image": np.array(image)}
+        transformed = self.transform(**data)
+        image = transformed['image']/255
+        image = np.transpose(image, (2, 0, 1))
+        return image, ImageId
     
     def __len__(self):
         """
@@ -240,8 +237,11 @@ class AirbusDS:
         self.val_ids = val_ids
         
         # Drop small images (mostly just clouds, water or corrupted)
-        train_ids['file_size_kb'] = train_ids['ImageId'].map(lambda c_img_id: os.stat(os.path.join(self.path_train, c_img_id)).st_size/1024)
-        train_ids = train_ids[train_ids['file_size_kb']>40] # keep only >40kb files
+        try:
+            train_ids['file_size_kb'] = train_ids['ImageId'].map(lambda c_img_id: os.stat(os.path.join(self.path_train, c_img_id)).st_size/1024)
+            train_ids = train_ids[train_ids['file_size_kb']>40] # keep only >40kb files
+        except:
+            pass
         
         # Undersample empty images to balance the dataset
         ships = train_ids[train_ids['has_ship']==1] 
@@ -249,8 +249,8 @@ class AirbusDS:
         self.train_ids = pd.concat([ships, no_ships], axis=0)  
         
         # Define transformations for augmentation and without it
-        self.transform_no_aug = transforms.Compose([transforms.Resize((int(768/self.resize_factor),
-                                                                       int(768/self.resize_factor))), transforms.ToTensor()])
+        self.transform_no_aug = Resize(height=int(768/self.resize_factor), width=int(768/self.resize_factor))
+
         if self.aug:
             self.transform = Compose([Resize(height=int(768/self.resize_factor), width=int(768/self.resize_factor)),
                                       OneOf([RandomRotate90(), Transpose(), Flip()], p=0.3)])

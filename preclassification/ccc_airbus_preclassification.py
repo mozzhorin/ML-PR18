@@ -19,9 +19,9 @@ from airbus_models import *
 # Define the arguments
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_gpu = torch.cuda.is_available()
-batch_size = 8
+batch_size = 4
 workers = 4
-path = '../../airbus/'
+path = '/home/shared/ml-pr-airbus/'
 aug=True
 resize_factor=4
 empty_frac=1
