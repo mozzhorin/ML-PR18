@@ -19,9 +19,9 @@ from airbus_models import *
 # Define the arguments
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_gpu = torch.cuda.is_available()
-batch_size = 4
+batch_size = 8
 workers = 4
-path = '../airbus/'
+path = '../../airbus/'
 aug=True
 resize_factor=4
 empty_frac=1
@@ -40,4 +40,4 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.001,
                             weight_decay=5e-4)
 
 # Predict
-predict(dataset.test_loader, model, device, treshold=0.5)
+predict(dataset.test_loader, model, device, 'predictions05_v2.txt', threshold=0.5)

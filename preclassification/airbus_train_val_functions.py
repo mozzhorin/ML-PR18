@@ -3,7 +3,7 @@ Preclassification: functions for training and validating.
 '''
 # coding: utf-8
 
-#from torchnet import meter
+from torchnet import meter
 
 import torch
 import numpy as np
