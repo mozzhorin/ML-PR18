@@ -2,7 +2,7 @@
 from path import *
 import numpy as np
 import pandas as pd
-import csv
+import csv, operator, random
 from shutil import copy
 from skimage.morphology import label, binary_opening, disk
 import gc; gc.enable() # memory is tight
@@ -55,23 +55,43 @@ def load_filenames(data_dir):
 def gather_mask_rle(masks_dict):
     out_pred_rows = []
     for file_name, masks in masks_dict.items():
-        for idx in range(masks.shape[-1]):
-            binary_mask = binary_opening(masks[...,idx]>0.5)
-            rle_masks = multi_rle_encode(binary_mask)
-            if len(rle_masks)>0:
-                for rle_mask in rle_masks:
-                    out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': rle_mask}]
-            else:
-                out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': None}]
-            gc.collect()
+        if masks.size > 0:
+            for idx in range(masks.shape[-1]):
+                binary_mask = binary_opening(masks[...,idx])
+                rle_masks = multi_rle_encode(binary_mask)
+                if len(rle_masks)>0:
+                    for rle_mask in rle_masks:
+                        out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': rle_mask}]
+                else:
+                    out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': None}]
+                gc.collect()
+        else:
+            out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': None}]
+
+    return out_pred_rows
+
+def gather_mask_rle_alt(masks_dict):
+    out_pred_rows = []
+    for file_name, masks in masks_dict.items():
+        if masks.size > 0:
+            mask_complete = np.zeros((768, 768), dtype=np.bool)
+            for idx in range(masks.shape[-1]):
+                mask_complete = np.logical_or(masks[...,idx], mask_complete)
+
+            binary_mask = binary_opening(mask_complete)
+            rle_masks = rle_encode(binary_mask)
+            out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': rle_masks}]
+        else:
+            out_pred_rows += [{'ImageId': file_name, 'EncodedPixels': None}]
+
     return out_pred_rows
 
 def create_submission_file(rle_data, submission_file_name_extender="ready_for_submission"):
+    if submission_file_name_extender is None:
+        submission_file_name_extender="ready_for_submission"
     submission_df = pd.DataFrame(rle_data)[['ImageId', 'EncodedPixels']]
     submission_file_name = os.path.join(DATA_DIR, "submission_" + submission_file_name_extender +".csv")
     submission_df.to_csv(submission_file_name, index=False)
-    submission_df.sample(3)
-
 
 
 ##copy files from source to destination based on csv data
@@ -87,6 +107,9 @@ def copy_file_from_source_to_destination_based_on_csv(source_folder, destination
         csvfile.close()
 
     print(len(files))
+    ## use for limiting the data count
+    files_temp = random.sample(files, 10000)
+    print(len(files_temp))
     for file in files:
         copy(os.path.join(source_folder, file), destination_folder)
 
@@ -159,3 +182,23 @@ def masks_all(filename, marks):
         for i in range(len(df)):
             masks += mask_part(df.iloc[i])
         return np.transpose(masks, (1,0,2))
+
+def convertTextToCSV(txt_file, csv_file):
+    with open(txt_file, 'r') as input_file, open(csv_file, 'w') as output_file:
+        stripped = sorted((line.strip() for line in input_file))
+        writer = csv.writer(output_file, delimiter=',')
+        writer.writerow(stripped)
+
+def csv_sorter(csv_file, csv_file_sorted, sort_key=None):
+    with open(csv_file, 'r') as input_file, open(csv_file_sorted, 'w') as output_file:
+        csv_data = csv.reader(input_file, delimiter=',')
+        ## sort_key is the index of column to be sorted
+        if sort_key is not None:
+            csv_data_sorted = sorted(csv_data, key=operator.itemgetter(sort_key))
+        else:
+            csv_data_sorted = sorted(csv_data)
+        writer = csv.writer(output_file, delimiter=',')
+        writer.writerow(['ImageId', 'EncodedPixels'])
+        for row in csv_data_sorted:
+            writer.writerow(row)
+

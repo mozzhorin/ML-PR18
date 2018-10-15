@@ -40,7 +40,6 @@ BIG_TRAIN_DATA_DIR = pt.BIG_TRAIN_DATA_DIR
 TEST_DATA_DIR = pt.SHIP_CONTAINING_TEST_DATA_DIR
 BIG_TEST_DATA_DIR = pt.BIG_TEST_DATA_DIR
 ASSETS_DIR = pt.ASSETS_DIR
-TEST_TEMP = pt.TEST_TEMP
 # Directory to save logs and trained model
 MODEL_DIR = pt.MODEL_DIR
 DETECTED = pt.DETECTED
@@ -67,6 +66,13 @@ class ShipConfig(Config):
     # Give the configuration a recognizable name
     NAME = "ship"
 
+    # Backbone network architecture
+    # Supported values are: resnet50, resnet101.
+    # You can also provide a callable that should have the signature
+    # of model.resnet_graph. If you do so, you need to supply a callable
+    # to COMPUTE_BACKBONE_SHAPE as well
+    BACKBONE = "resnet50"
+
     # We use a GPU with 12GB memory, which can fit two images.
     # Adjust down if you use a smaller GPU.
     IMAGES_PER_GPU = 1
@@ -75,9 +81,9 @@ class ShipConfig(Config):
     NUM_CLASSES = 1 + 1  # Background + ship
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 1000
+    STEPS_PER_EPOCH = 90000
 
-    VALIDATION_STEPS = 50
+    VALIDATION_STEPS = 10000
 
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.90
@@ -85,7 +91,7 @@ class ShipConfig(Config):
     # If enabled, resizes instance masks to a smaller size to reduce
     # memory load. Recommended when using high-resolution images.
     USE_MINI_MASK = True
-    MINI_MASK_SHAPE = (384, 384)  # (height, width) of the mini-mask
+    MINI_MASK_SHAPE = (256, 256)  # (height, width) of the mini-mask
 
     IMAGE_RESIZE_MODE = "square"
     IMAGE_MIN_DIM = 768
@@ -109,8 +115,8 @@ class ShipDataset(utils.Dataset):
 
         elif mode == "test":
             self.mode = 'test'
-            masks_file_path = os.path.join(DATA_DIR, 'test_ship_segmentations.csv')
-            self.masks = pd.read_csv(masks_file_path, keep_default_na=False)
+            #masks_file_path = os.path.join(DATA_DIR, 'test_ship_segmentations.csv')
+            #self.masks = pd.read_csv(masks_file_path, keep_default_na=False)
 
         self.len = len(self.filenames)
 
@@ -257,21 +263,21 @@ def color_splash(image, mask):
     return splash
 
 ##detection
-def detect_and_color_splash(model, image_path=None, video_path=None, submission_file_name_extender=None):
+def detect_and_color_splash(model, image_path=None, video_path=None, submission_file_name_extender=None, save_to_file=False, multi_entry_submission=False):
     assert image_path or video_path
-    #dataset_to_detect, dataset_val = load_dataset(mode="splash", dataset_path=image_path)
     # Image or video?
     masks_dict = {}
     masks_rle = []
     start = timer()
+    seconds_elapsed = 0
+    i = 0
+    k = 0
     if image_path:
         test_image_filenames = load_filenames(image_path)
         # Run model detection and generate the color splash effect
         #print("Running on {}".format(args.image))
         print("Running on {}".format(image_path))
         print("Image Count for detection", len(test_image_filenames))
-        i = 0
-        k = 0
         for test_image_filename in test_image_filenames:
             # Read image
             #image = imread(args.image)
@@ -285,15 +291,23 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
                 i += 1
                 k += 1
                 print("counter: ", k)
-                if i == 500:
-                    masks_rle += gather_mask_rle(masks_dict)
+                if i == 43000:
+                    end = timer()
+                    seconds_elapsed += end - start
+                    print("detection duration(in Sec) after " + str(i) + " images : ", end - start)
+                    if multi_entry_submission:
+                        masks_rle += gather_mask_rle(masks_dict)
+                    else:
+                        masks_rle += gather_mask_rle_alt(masks_dict)
+
                     masks_dict = {}
                     i = 0
                     gc.collect()
-
-            # Color splash
-            #splash = color_splash(image, r['masks'])
-            #save_detected_image(splash, r['masks'], test_image_filename)
+                    start = timer()
+            if save_to_file:
+                #Color splash
+                splash = color_splash(image, r['masks'])
+                save_detected_image(splash, r['masks'], test_image_filename)
 
     elif video_path:
         import cv2
@@ -330,9 +344,15 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
         vwriter.release()
     #print("Saved to ", file_name)
     end = timer()
-    print("detection duration(in Sec): ", end - start)
+    seconds_elapsed += end - start
+    print("detection duration(in Sec) of " + str(k) + " images: ", seconds_elapsed)
     if submission_file_name_extender is not None:
-        masks_rle = gather_mask_rle(masks_dict)
+        if masks_dict:
+            if multi_entry_submission:
+                masks_rle += gather_mask_rle(masks_dict)
+            else:
+                masks_rle += gather_mask_rle_alt(masks_dict)
+
         create_submission_file(masks_rle, submission_file_name_extender=submission_file_name_extender)
 
 
@@ -341,7 +361,7 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
 #  Training
 ############################################################
 
-def init_training(mode, dataset, logs=DEFAULT_LOGS_DIR, weights="last", image=TEST_DATA_DIR, video=None, submission_file_name_extender=None):
+def init_training(mode, dataset, logs=DEFAULT_LOGS_DIR, weights="last", image=TEST_DATA_DIR, video=None, submission_file_name_extender=None, save_to_file=False):
     # Validate arguments
     if mode == "train":
         assert dataset, "Argument --dataset is required for training"
@@ -350,7 +370,10 @@ def init_training(mode, dataset, logs=DEFAULT_LOGS_DIR, weights="last", image=TE
             "Provide --image or --video to apply color splash"
 
     print("Weights: ", weights)
-    print("Dataset: ", dataset)
+    if mode == "train":
+        print("Dataset: ", dataset)
+    else:
+        print("Dataset: ", image)
     print("Logs: ", logs)
     print("Mode: ", mode)
 
@@ -405,7 +428,7 @@ def init_training(mode, dataset, logs=DEFAULT_LOGS_DIR, weights="last", image=TE
         train(model, config, dataset)
     elif mode == "splash":
         detect_and_color_splash(model, image_path=image,
-                                video_path=video, submission_file_name_extender=submission_file_name_extender)
+                                video_path=video, submission_file_name_extender=submission_file_name_extender, save_to_file=save_to_file)
     else:
         print("'{}' is not recognized. "
               "Use 'train' or 'splash'".format(mode))
@@ -508,3 +531,4 @@ if __name__ == '__main__':
     else:
         print("'{}' is not recognized. "
               "Use 'train' or 'splash'".format(args.command))
+
