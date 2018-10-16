@@ -45,13 +45,14 @@ def rle_decode(mask_rle, shape=(768, 768)):
 
     return img.reshape(shape).T  # Needed to align to RLE direction
 
-
+## gathers jpg image files from the provided folder
 def load_filenames(data_dir):
         if not data_dir:
             data_dir = SHIP_CONTAINING_TRAIN_DATA_DIR
         extension = ".jpg"
         return [f for f in os.listdir(data_dir) if f.endswith(extension)]
 
+##gather run-length masks for submission, each image has multiple entry in submission data
 def gather_mask_rle(masks_dict):
     out_pred_rows = []
     for file_name, masks in masks_dict.items():
@@ -70,6 +71,7 @@ def gather_mask_rle(masks_dict):
 
     return out_pred_rows
 
+##gather run-length masks for submission, each image has a single entry in submission data
 def gather_mask_rle_alt(masks_dict):
     out_pred_rows = []
     for file_name, masks in masks_dict.items():
@@ -112,42 +114,6 @@ def copy_file_from_source_to_destination_based_on_csv(source_folder, destination
     print(len(files_temp))
     for file in files:
         copy(os.path.join(source_folder, file), destination_folder)
-
-#https://www.kaggle.com/rackovic1994/convolutional-neural-network
-#Stevo Rackovic
-
-def transform(X, Y):
-    '''
-    Function for augmenting images.
-    It takes original image and corresponding mask and performs the
-    same flipping and rotation transforamtions on both in order to
-    perserve the overlapping of ships and their masks
-    '''
-    # add noise:
-    x = np.copy(X)
-    y = np.copy(Y)
-    x[:,:,0] = x[:,:,0] + np.random.normal(loc=0.0, scale=0.01, size=(768,768))
-    x[:,:,1] = x[:,:,1] + np.random.normal(loc=0.0, scale=0.01, size=(768,768))
-    x[:,:,2] = x[:,:,2] + np.random.normal(loc=0.0, scale=0.01, size=(768,768))
-    # Adding Gaussian noise on each rgb channel; this way we will NEVER get two completely same images.
-    # Note that this transformation is not performed on Y
-    x[np.where(x<0)] = 0
-    x[np.where(x>1)] = 1
-    # axes swap:
-    if np.random.rand()<0.5: # 0.5 chances for this transformation to occur (same for two below)
-        x = np.swapaxes(x, 0,1)
-        y = np.swapaxes(y, 0,1)
-    # vertical flip:
-    if np.random.rand()<0.5:
-        x = np.flip(x, 0)
-        y = np.flip(y, 0)
-    # horizontal flip:
-    if np.random.rand()<0.5:
-        x = np.flip(x, 1)
-        y = np.flip(y, 1)
-
-    return x, y
-
 
 def mask_part(pic):
     '''

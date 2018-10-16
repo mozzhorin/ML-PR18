@@ -101,6 +101,7 @@ class ShipConfig(Config):
 #  Dataset
 ############################################################
 
+# defines the dataset for ship
 class ShipDataset(utils.Dataset):
 
     def __init__(self, aug=False, mode="train"):
@@ -115,11 +116,9 @@ class ShipDataset(utils.Dataset):
 
         elif mode == "test":
             self.mode = 'test'
-            #masks_file_path = os.path.join(DATA_DIR, 'test_ship_segmentations.csv')
-            #self.masks = pd.read_csv(masks_file_path, keep_default_na=False)
-
         self.len = len(self.filenames)
 
+# reads the image data from provided directory and add them to ship dataset
     def load_ship(self, dataset_dir):
         """Load a subset of the ship dataset.
         dataset_dir: Root directory of the dataset.
@@ -140,7 +139,7 @@ class ShipDataset(utils.Dataset):
                 width=width, height=height,
                 mask=masks)
 
-
+# loads mask from mask file based on the image id
     def load_mask(self, image_id):
         """Generate instance masks for an image.
        Returns:
@@ -177,7 +176,7 @@ class ShipDataset(utils.Dataset):
         else:
             super(self.__class__, self).image_reference(image_id)
 
-
+## calls the eval, train dataset generator and calls the train method of the model
 def train(model, config, dataset=TRAIN_DATA_DIR):
     """Train the model."""
 
@@ -360,7 +359,7 @@ def detect_and_color_splash(model, image_path=None, video_path=None, submission_
 ############################################################
 #  Training
 ############################################################
-
+## Training can be initialized via this method or per arguments via CLI
 def init_training(mode, dataset, logs=DEFAULT_LOGS_DIR, weights="last", image=TEST_DATA_DIR, video=None, submission_file_name_extender=None, save_to_file=False):
     # Validate arguments
     if mode == "train":
